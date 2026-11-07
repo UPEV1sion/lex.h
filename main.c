@@ -15,7 +15,7 @@ int main(void)
     Token tok;
     for(lex_next_tok(&lexer, &tok); tok.type != TOK_EOF; lex_next_tok(&lexer, &tok))
     {
-        printf("%s: %.*s\n", lex_stringify_token_type(tok.type), (int) tok.lexeme.len, tok.lexeme.data);
+        printf("%zu:%zu:%s: %.*s\n", tok.loc.row, tok.loc.col, lex_stringify_token_type(tok.type), (int) tok.lexeme.len, tok.lexeme.data);
     }
 
     return 0;

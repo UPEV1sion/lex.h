@@ -127,7 +127,8 @@ typedef struct {
 typedef struct {
     StringView input;
     Location loc;
-    size_t tok_start;
+    Location tok_start_loc;
+    size_t tok_start_offset;
     size_t offset;
 } Lexer;
 
@@ -325,7 +326,17 @@ char lex__peek_next(Lexer *lexer)
 
 char lex__advance(Lexer *lexer)
 {
-    return lexer->input.data[lexer->offset++];
+    const char c = lexer->input.data[lexer->offset++];
+    if('\n' == c)
+    {
+        lexer->loc.row++;
+        lexer->loc.col = 0;
+    }
+    else
+    {
+        lexer->loc.col++;
+    }
+    return c;
 }
 
 bool lex__match(Lexer *lexer, char expected)
@@ -340,8 +351,8 @@ Token lex__make_tok(Lexer *lexer, TokenType type)
 {
     return (Token) {
         .type = type,
-        .lexeme = sv(lexer->input.data + lexer->tok_start, lexer->offset - lexer->tok_start),
-        .loc = lexer->loc,
+        .lexeme = sv(lexer->input.data + lexer->tok_start_offset, lexer->offset - lexer->tok_start_offset),
+        .loc = lexer->tok_start_loc,
     };
 }
 
@@ -379,7 +390,7 @@ bool lex__is_ident(char c)
 
 TokenType lex__lookup_keyword(Lexer *lexer)
 {
-    const KeywordEntry *entry = lex__lookup_function(lexer->input.data + lexer->tok_start, lexer->offset - lexer->tok_start);
+    const KeywordEntry *entry = lex__lookup_function(lexer->input.data + lexer->tok_start_offset, lexer->offset - lexer->tok_start_offset);
     if(entry) return entry->id;
     return TOK_ID;
 }
@@ -431,7 +442,8 @@ Token lex__string(Lexer *lexer)
 int lex_next_tok(Lexer *lexer, Token *tok)
 {
     lex__trim_left(lexer);
-    lexer->tok_start = lexer->offset;
+    lexer->tok_start_offset = lexer->offset;
+    lexer->tok_start_loc = lexer->loc;
 
     if(lex__is_end(lexer))
     {
@@ -456,20 +468,55 @@ int lex_next_tok(Lexer *lexer, Token *tok)
         case '(': *tok = lex__make_tok(lexer, TOK_OPAREN); return 0;
         case ')': *tok = lex__make_tok(lexer, TOK_CPAREN); return 0;
         case '{': *tok = lex__make_tok(lexer, TOK_OBRACE); return 0;
-        case '}': *tok = lex__make_tok(lexer, TOK_CPAREN); return 0;
+        case '}': *tok = lex__make_tok(lexer, TOK_CBRACE); return 0;
         case '[': *tok = lex__make_tok(lexer, TOK_OBRACKET); return 0;
         case ']': *tok = lex__make_tok(lexer, TOK_CBRACKET); return 0;
         case ';': *tok = lex__make_tok(lexer, TOK_SEMICOLON); return 0;
         case ',': *tok = lex__make_tok(lexer, TOK_COMMA); return 0;
         case '.': *tok = lex__make_tok(lexer, TOK_DOT); return 0;
-        case '-': *tok = lex__make_tok(lexer, TOK_MINUS); return 0;
-        case '+': *tok = lex__make_tok(lexer, TOK_PLUS); return 0;
-        case '*': *tok = lex__make_tok(lexer, TOK_STAR); return 0;
-        case '/': *tok = lex__make_tok(lexer, TOK_SLASH); return 0;
+        case '-': {
+            if (lex__match(lexer, '>'))      *tok = lex__make_tok(lexer, TOK_ARROW);
+            else if (lex__match(lexer, '-')) *tok = lex__make_tok(lexer, TOK_MINUS_MINUS);
+            else if (lex__match(lexer, '=')) *tok = lex__make_tok(lexer, TOK_MINUS_EQ);
+            else                             *tok = lex__make_tok(lexer, TOK_MINUS);
+            return 0;
+        } 
+        case '+':  {
+            if (lex__match(lexer, '+'))      *tok = lex__make_tok(lexer, TOK_PLUS_PLUS);
+            else if (lex__match(lexer, '=')) *tok = lex__make_tok(lexer, TOK_PLUS_EQ);
+            else                             *tok = lex__make_tok(lexer, TOK_PLUS);
+            return 0;
+        }
+        case '*': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_STAR_EQ : TOK_STAR); return 0;
+        case '/': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_SLASH_EQ : TOK_SLASH); return 0;
         case '!': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_BANG_EQ : TOK_BANG); return 0;
         case '=': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_EQ_EQ : TOK_EQ); return 0;
-        case '<': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_LESS_EQ : TOK_LESS); return 0;
-        case '>': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_GREATER_EQ : TOK_GREATER); return 0;
+        case '<':  {
+            if (lex__match(lexer, '<'))      *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_SHIFT_LEFT_EQ : TOK_SHIFT_LEFT);
+            else if (lex__match(lexer, '=')) *tok = lex__make_tok(lexer, TOK_LESS_EQ);
+            else                             *tok = lex__make_tok(lexer, TOK_LESS);
+            return 0;
+        }
+        case '>':  {
+            if (lex__match(lexer, '>'))      *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_SHIFT_RIGHT_EQ : TOK_SHIFT_RIGHT);
+            else if (lex__match(lexer, '=')) *tok = lex__make_tok(lexer, TOK_GREATER_EQ);
+            else                             *tok = lex__make_tok(lexer, TOK_GREATER);
+            return 0;
+        }
+        case '^': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_XOR_EQ : TOK_XOR); return 0;
+        case '|': {
+            if(lex__match(lexer, '|'))       *tok = lex__make_tok(lexer, TOK_OR_OR);
+            else if(lex__match(lexer, '='))  *tok = lex__make_tok(lexer, TOK_OR_EQ);
+            else                             *tok = lex__make_tok(lexer, TOK_OR);
+            return 0;
+        }
+        case '&': {
+            if(lex__match(lexer, '&'))       *tok = lex__make_tok(lexer, TOK_AND_AND);
+            else if(lex__match(lexer, '='))  *tok = lex__make_tok(lexer, TOK_AND_EQ);
+            else                             *tok = lex__make_tok(lexer, TOK_AND);
+            return 0;
+        }
+        case '%': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_MOD_EQ : TOK_MOD); return 0;
         case '"': *tok = lex__string(lexer); return 0;
     }
 
