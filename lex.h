@@ -5,119 +5,113 @@
 #include <stddef.h>
 #include <stdbool.h>
 
+#define TOKEN_TYPE_LIST \
+	/* SEPARATORS */ \
+    X(TOK_OPAREN) \
+    X(TOK_CPAREN) \
+    X(TOK_OBRACE) \
+    X(TOK_CBRACE) \
+    X(TOK_OBRACKET) \
+    X(TOK_CBRACKET) \
+    X(TOK_SEMICOLON) \
+    /* KEYWORDS */ \
+	X(TOK_AUTO) \
+	X(TOK_BREAK) \
+	X(TOK_CASE) \
+	X(TOK_CHAR) \
+	X(TOK_CONST) \
+	X(TOK_CONTINUE) \
+	X(TOK_DEFAULT) \
+	X(TOK_DO) \
+	X(TOK_DOUBLE) \
+	X(TOK_ELSE) \
+	X(TOK_ENUM) \
+	X(TOK_EXTERN) \
+	X(TOK_FLOAT) \
+	X(TOK_FOR) \
+	X(TOK_GOTO) \
+	X(TOK_IF) \
+	X(TOK_INT) \
+	X(TOK_LONG) \
+	X(TOK_REGISTER) \
+	X(TOK_RETURN) \
+	X(TOK_SHORT) \
+	X(TOK_SIGNED) \
+	X(TOK_SIZEOF) \
+	X(TOK_STATIC) \
+	X(TOK_STRUCT) \
+	X(TOK_SWITCH) \
+	X(TOK_TYPEDEF) \
+	X(TOK_UNION) \
+	X(TOK_UNSIGNED) \
+	X(TOK_VOID) \
+	X(TOK_VOLATILE) \
+	X(TOK_WHILE) \
+    /* OPERATORS */ \
+    X(TOK_DOT) \
+    X(TOK_ARROW) \
+    X(TOK_QUESTION) \
+    X(TOK_COLON) \
+    X(TOK_COMMA) \
+    X(TOK_PLUS) \
+    X(TOK_MINUS) \
+    X(TOK_STAR) \
+    X(TOK_SLASH) \
+    X(TOK_MOD) \
+    X(TOK_PLUS_PLUS) \
+    X(TOK_MINUS_MINUS) \
+    X(TOK_EQ_EQ) \
+    X(TOK_BANG_EQ) \
+    X(TOK_GREATER) \
+    X(TOK_LESS) \
+    X(TOK_GREATER_EQ) \
+    X(TOK_LESS_EQ) \
+    X(TOK_BANG) \
+    X(TOK_AND_AND) \
+    X(TOK_OR_OR) \
+    X(TOK_TILDE) \
+    X(TOK_AND) \
+    X(TOK_OR) \
+    X(TOK_XOR) \
+    X(TOK_SHIFT_LEFT) \
+    X(TOK_SHIFT_RIGHT) \
+    X(TOK_EQ) \
+    X(TOK_PLUS_EQ) \
+    X(TOK_MINUS_EQ) \
+    X(TOK_STAR_EQ) \
+    X(TOK_SLASH_EQ) \
+    X(TOK_MOD_EQ) \
+    X(TOK_AND_EQ) \
+    X(TOK_OR_EQ) \
+    X(TOK_XOR_EQ) \
+    X(TOK_SHIFT_LEFT_EQ) \
+    X(TOK_SHIFT_RIGHT_EQ) \
+    /* LITERALS */ \
+    X(TOK_INT_LIT) \
+    X(TOK_LONG_LIT) \
+    X(TOK_FLOAT_LIT) \
+    X(TOK_DOUBLE_LIT) \
+    X(TOK_CHAR_LIT) \
+    X(TOK_STR_LIT) \
+    /* IDENTIFIER */ \
+    X(TOK_ID) \
+	/* SPECIAL */ \
+    X(TOK_EOF) \
+    X(TOK_ERR)
+
 typedef enum {
-    // SEPARATORS
-    TOK_OPAREN,
-    TOK_CPAREN,
-    TOK_OBRACE,
-    TOK_CBRACE,
-    TOK_OBRACKET,
-    TOK_CBRACKET,
-    TOK_SEMICOLON,
-
-    // KEYWORDS
-    TOK_ALIGNAS,
-    TOK_ALIGNOF,
-    TOK_AUTO,
-    TOK_BOOL,
-    TOK_BREAK,
-    TOK_CASE,
-    TOK_CHAR,
-    TOK_CONST,
-    TOK_CONSTEXPR,
-    TOK_CONTINUE,
-    TOK_DEFAULT,
-    TOK_DO,
-    TOK_DOUBLE,
-    TOK_ELSE,
-    TOK_ENUM,
-    TOK_EXTERN,
-    TOK_FLOAT,
-    TOK_FOR,
-    TOK_GOTO,
-    TOK_IF,
-    TOK_INLINE,
-    TOK_INT,
-    TOK_LONG,
-    TOK_REGISTER,
-    TOK_RESTRICT,
-    TOK_RETURN,
-    TOK_SHORT,
-    TOK_SIGNED,
-    TOK_SIZEOF,
-    TOK_STATIC,
-    TOK_STATIC_ASSERT,
-    TOK_STRUCT,
-    TOK_SWITCH,
-    TOK_THREAD_LOCAL,
-    TOK_TYPEDEF,
-    TOK_TYPEOF,
-    TOK_TYPEOF_UNQUAL,
-    TOK_UNION,
-    TOK_UNSIGNED,
-    TOK_VOID,
-    TOK_VOLATILE,
-    TOK_WHILE,
-
-    // OPERATORS
-    TOK_DOT,
-    TOK_ARROW,
-    TOK_QUESTION,
-    TOK_COLON,
-    TOK_COMMA,
-    TOK_PLUS,
-    TOK_MINUS,
-    TOK_STAR,
-    TOK_SLASH,
-    TOK_MOD,
-    TOK_PLUS_PLUS,
-    TOK_MINUS_MINUS,
-    TOK_EQ_EQ,
-    TOK_BANG_EQ,
-    TOK_GREATER,
-    TOK_LESS,
-    TOK_GREATER_EQ,
-    TOK_LESS_EQ,
-    TOK_BANG,
-    TOK_AND_AND,
-    TOK_OR_OR,
-    TOK_TILDE,
-    TOK_AND,
-    TOK_OR,
-    TOK_XOR,
-    TOK_SHIFT_LEFT,
-    TOK_SHIFT_RIGHT,
-    TOK_EQ,
-    TOK_PLUS_EQ,
-    TOK_MINUS_EQ,
-    TOK_STAR_EQ,
-    TOK_SLASH_EQ,
-    TOK_MOD_EQ,
-    TOK_AND_EQ,
-    TOK_OR_EQ,
-    TOK_XOR_EQ,
-    TOK_SHIFT_LEFT_EQ,
-    TOK_SHIFT_RIGHT_EQ,
-
-    // LITERALS
-    TOK_INT_LIT,
-    TOK_LONG_LIT,
-    TOK_FLOAT_LIT,
-    TOK_DOUBLE_LIT,
-    TOK_CHAR_LIT,
-    TOK_STR_LIT,
-
-    // IDENTIFIER
-    TOK_ID,
-
-    TOK_EOF,
-    TOK_INVALID,
+    #define X(name) name,
+		TOKEN_TYPE_LIST
+	#undef X
 } TokenType;
 
 typedef struct {
     const char *data;
     size_t len;
 } StringView;
+
+#define sv(data1, len1) ((StringView) {.data = data1, .len = len1 })
+#define sv_lit(data1) ((StringView) {.data = data1, .len = sizeof(data1) - 1})
 
 typedef struct {
     size_t col;
@@ -133,13 +127,14 @@ typedef struct {
 typedef struct {
     StringView input;
     Location loc;
-    Token cur_tok;
-    int cur_char;
     size_t tok_start;
     size_t offset;
 } Lexer;
 
 int lex_next_tok(Lexer *lexer, Token *tok);
+void lex_init(Lexer *lexer, const char *source);
+void lex_init_sv(Lexer *lexer, StringView source);
+const char* lex_stringify_token_type(TokenType type);
 
 #ifdef LEX_IMPLEMENTATION
 
@@ -345,10 +340,7 @@ Token lex__make_tok(Lexer *lexer, TokenType type)
 {
     return (Token) {
         .type = type,
-        .lexeme = (StringView) { 
-            .data = lexer->input.data + lexer->offset,
-            .len  = lexer->offset - lexer->tok_start,
-        },
+        .lexeme = sv(lexer->input.data + lexer->tok_start, lexer->offset - lexer->tok_start),
         .loc = lexer->loc,
     };
 }
@@ -375,6 +367,7 @@ void lex__trim_left(Lexer *lexer)
                     while(!lex__is_end(lexer) && '\n' != lex__peek(lexer)) lex__advance(lexer);
                 }
                 break;
+            default: return;
         }
     }
 }
@@ -412,22 +405,24 @@ Token lex__number(Lexer *lexer)
     return lex__make_tok(lexer, lex__match(lexer, 'l') || lex__match(lexer, 'L') ? TOK_LONG_LIT : TOK_INT_LIT);
 }
 
-Token lex__error_tok(const char *err_msg)
+Token lex__error_tok(Lexer *lexer, StringView err_msg)
 {
-    // TODO
-    (void) err_msg;
-    return (Token) {0};
+    return (Token) {
+        .type = TOK_ERR,
+        .lexeme = err_msg,
+        .loc = lexer->loc,
+    };
 }
 
 Token lex__string(Lexer *lexer)
 {
     while ('"' != lex__peek(lexer) && !lex__is_end(lexer))
     {
-        if('\n' == lex__peek(lexer)) lex__error_tok("Multiline strings are not supported.");
+        if('\n' == lex__peek(lexer)) return lex__error_tok(lexer, sv_lit("Multiline strings are not supported."));
         lex__advance(lexer);
     }
 
-    if (lex__is_end(lexer)) return lex__error_tok("Unterminated string.");
+    if (lex__is_end(lexer)) return lex__error_tok(lexer, sv_lit("Unterminated string."));
 
     lex__advance(lexer);
     return lex__make_tok(lexer, TOK_STR_LIT);
@@ -478,7 +473,32 @@ int lex_next_tok(Lexer *lexer, Token *tok)
         case '"': *tok = lex__string(lexer); return 0;
     }
 
+    *tok = lex__error_tok(lexer, sv_lit("Unrecognized symbol."));
     return 1;
+}
+
+void lex_init_sv(Lexer *lexer, StringView source)
+{
+
+    memset(lexer, 0, sizeof(Lexer));
+    lexer->input = source;
+}
+
+void lex_init(Lexer *lexer, const char *source)
+{
+    lex_init_sv(lexer, sv(source, strlen(source)));
+}
+
+const char* lex_stringify_token_type(TokenType type)
+{
+	switch(type)
+	{
+		#define X(name) case name: return #name;
+			TOKEN_TYPE_LIST
+		#undef X
+	}
+	
+	return NULL;
 }
 
 #endif // LEX_IMPLEMENTATION
