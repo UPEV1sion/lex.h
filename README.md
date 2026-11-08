@@ -28,7 +28,7 @@ int main(void)
     lex_init_sv(&lexer, sv(buffer, size));
 
     Token tok;
-    for(;;)
+    do
     {
         lex_next_tok(&lexer, &tok);
 
@@ -39,9 +39,8 @@ int main(void)
                 (int) tok.lexeme.len, 
                 tok.lexeme.data
                );
-
-        if(tok.type == TOK_EOF || tok.type == TOK_ERR) break;
-    }
+        
+    } while(tok.type != TOK_EOF && tok.type != TOK_ERR);
 
     fclose(f);
 

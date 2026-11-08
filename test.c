@@ -8,6 +8,7 @@
 // comment
 int main(void)
 {
-    printf("%d\n", 2.0l, 'a', '\n');
+    printf("%f\n", 10E3);
+    $
     return 0;
 }
