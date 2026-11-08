@@ -381,27 +381,44 @@ bool lex__expect(Lexer *lexer, char expected, StringView err_msg, Token *tok)
 
 void lex__trim_left(Lexer *lexer)
 {
+    
     for(;;)
     {
-        const char c = lex__peek(lexer);
-        switch(c)
+        while(isspace((unsigned char) lex__peek(lexer)))
         {
-            case '\n': {
-                lexer->loc.row++;
-                lexer->loc.col = 0;
-            } // fallthrough
-            case ' ':
-            case '\t':
-            case '\r':
+            lex__advance(lexer);
+        }
+
+        if('/' == lex__peek(lexer))
+        {
+            if('/' == lex__peek_next(lexer))
+            {
                 lex__advance(lexer);
-                break;
-            case '/':
-                if('/' == lex__peek_next(lexer))
+                lex__advance(lexer);
+                while(!lex__is_end(lexer) && '\n' != lex__peek(lexer)) lex__advance(lexer);
+            }
+            else if('*' == lex__peek_next(lexer))
+            {
+                lex__advance(lexer);
+                lex__advance(lexer);
+                while(!lex__is_end(lexer))
                 {
-                    while(!lex__is_end(lexer) && '\n' != lex__peek(lexer)) lex__advance(lexer);
+                    if('*' == lex__peek(lexer) && '/' == lex__peek_next(lexer))
+                    {
+                        lex__advance(lexer);
+                        lex__advance(lexer);
+                        break;
+                    }
+                    else
+                    {
+                        lex__advance(lexer); 
+                    }
                 }
-                break;
-            default: return;
+            }
+        }
+        else
+        {
+            break;
         }
     }
 }
@@ -434,8 +451,7 @@ Token lex__number(Lexer *lexer)
     {
         lex__advance(lexer);
         while(isdigit((unsigned char) lex__peek(lexer))) lex__advance(lexer);
-        lex__match(lexer, 'f');
-        lex__match(lexer, 'F');
+        while(isalpha((unsigned char) lex__peek(lexer))) lex__advance(lexer);
         return lex__make_tok(lexer, TOK_NUM_LIT);
     }
 
@@ -462,7 +478,8 @@ Token lex__char(Lexer *lexer)
 {
     Token tok;
 
-    if(lex__match(lexer, '\\'))
+    const char c = lex__advance(lexer);
+    if('\\' == c)
     {
         lex__advance(lexer);
     }
