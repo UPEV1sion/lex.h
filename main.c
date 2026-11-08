@@ -13,7 +13,7 @@ int main(void)
     lex_init_sv(&lexer, sv(buffer, size));
 
     Token tok;
-    for(lex_next_tok(&lexer, &tok); tok.type != TOK_EOF; lex_next_tok(&lexer, &tok))
+    while(lex_next_tok(&lexer, &tok) == 0 && tok.type != TOK_EOF)
     {
         printf("%zu:%zu:%s: %.*s\n", tok.loc.row, tok.loc.col, lex_stringify_token_type(tok.type), (int) tok.lexeme.len, tok.lexeme.data);
     }

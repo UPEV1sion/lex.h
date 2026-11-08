@@ -87,10 +87,7 @@
     X(TOK_SHIFT_LEFT_EQ) \
     X(TOK_SHIFT_RIGHT_EQ) \
     /* LITERALS */ \
-    X(TOK_INT_LIT) \
-    X(TOK_LONG_LIT) \
-    X(TOK_FLOAT_LIT) \
-    X(TOK_DOUBLE_LIT) \
+    X(TOK_NUM_LIT) \
     X(TOK_CHAR_LIT) \
     X(TOK_STR_LIT) \
     /* IDENTIFIER */ \
@@ -308,6 +305,29 @@ lex__lookup_function (register const char *str, register size_t len)
 
 // GPERF code end
 
+Token lex__generic_tok(Lexer *lexer, TokenType type, StringView lexeme)
+{
+    return (Token) {
+        .type = type,
+        .lexeme = lexeme,
+        .loc = lexer->tok_start_loc,
+    };
+}
+
+Token lex__make_tok(Lexer *lexer, TokenType type)
+{
+    return lex__generic_tok(
+               lexer, 
+               type,
+               sv(lexer->input.data + lexer->tok_start_offset, lexer->offset - lexer->tok_start_offset)
+           );
+}
+
+Token lex__error_tok(Lexer *lexer, StringView err_msg)
+{
+    return lex__generic_tok(lexer, TOK_ERR, err_msg);
+}
+
 bool lex__is_end(Lexer *lexer)
 {
     return lexer->offset >= lexer->input.len;
@@ -347,13 +367,16 @@ bool lex__match(Lexer *lexer, char expected)
     return true;
 }
 
-Token lex__make_tok(Lexer *lexer, TokenType type)
+bool lex__expect(Lexer *lexer, char expected, StringView err_msg, Token *tok)
 {
-    return (Token) {
-        .type = type,
-        .lexeme = sv(lexer->input.data + lexer->tok_start_offset, lexer->offset - lexer->tok_start_offset),
-        .loc = lexer->tok_start_loc,
-    };
+    if(lex__is_end(lexer) || lexer->input.data[lexer->offset] != expected)
+    {
+        *tok = lex__error_tok(lexer, err_msg);
+        return false;
+    }
+
+    lexer->offset++;
+    return true;
 }
 
 void lex__trim_left(Lexer *lexer)
@@ -401,6 +424,7 @@ Token lex__ident(Lexer *lexer)
     return lex__make_tok(lexer, lex__lookup_keyword(lexer));    
 }
 
+
 Token lex__number(Lexer *lexer)
 {
     while (isdigit((unsigned char) lex__peek(lexer))) lex__advance(lexer);
@@ -410,19 +434,14 @@ Token lex__number(Lexer *lexer)
     {
         lex__advance(lexer);
         while(isdigit((unsigned char) lex__peek(lexer))) lex__advance(lexer);
-        return lex__make_tok(lexer, lex__match(lexer, 'f') ? TOK_FLOAT_LIT : TOK_DOUBLE_LIT);
+        lex__match(lexer, 'f');
+        lex__match(lexer, 'F');
+        return lex__make_tok(lexer, TOK_NUM_LIT);
     }
 
-    return lex__make_tok(lexer, lex__match(lexer, 'l') || lex__match(lexer, 'L') ? TOK_LONG_LIT : TOK_INT_LIT);
-}
+    while (isalnum((unsigned char) lex__peek(lexer))) lex__advance(lexer);
 
-Token lex__error_tok(Lexer *lexer, StringView err_msg)
-{
-    return (Token) {
-        .type = TOK_ERR,
-        .lexeme = err_msg,
-        .loc = lexer->loc,
-    };
+    return lex__make_tok(lexer, TOK_NUM_LIT);
 }
 
 Token lex__string(Lexer *lexer)
@@ -437,6 +456,19 @@ Token lex__string(Lexer *lexer)
 
     lex__advance(lexer);
     return lex__make_tok(lexer, TOK_STR_LIT);
+}
+
+Token lex__char(Lexer *lexer)
+{
+    Token tok;
+
+    if(lex__match(lexer, '\\'))
+    {
+        lex__advance(lexer);
+    }
+
+    if(!lex__expect(lexer, '\'', sv_lit("Non terminated char detected."), &tok)) return tok;
+    return lex__make_tok(lexer, TOK_CHAR_LIT);
 }
 
 int lex_next_tok(Lexer *lexer, Token *tok)
@@ -516,8 +548,10 @@ int lex_next_tok(Lexer *lexer, Token *tok)
             else                             *tok = lex__make_tok(lexer, TOK_AND);
             return 0;
         }
+        case '~': *tok = lex__make_tok(lexer, TOK_TILDE); return 0;
         case '%': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_MOD_EQ : TOK_MOD); return 0;
         case '"': *tok = lex__string(lexer); return 0;
+        case '\'': *tok = lex__char(lexer); return 0;
     }
 
     *tok = lex__error_tok(lexer, sv_lit("Unrecognized symbol."));
@@ -526,7 +560,6 @@ int lex_next_tok(Lexer *lexer, Token *tok)
 
 void lex_init_sv(Lexer *lexer, StringView source)
 {
-
     memset(lexer, 0, sizeof(Lexer));
     lexer->input = source;
 }
