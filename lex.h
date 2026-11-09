@@ -567,6 +567,8 @@ int lex_next_tok(Lexer *lexer, Token *tok)
         }
         case '~': *tok = lex__make_tok(lexer, TOK_TILDE); return 0;
         case '%': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_MOD_EQ : TOK_MOD); return 0;
+        case '?': *tok = lex__make_tok(lexer, TOK_QUESTION); return 0;
+        case ':': *tok = lex__make_tok(lexer, TOK_COLON); return 0;
         case '"': *tok = lex__string(lexer); return 0;
         case '\'': *tok = lex__char(lexer); return 0;
     }
