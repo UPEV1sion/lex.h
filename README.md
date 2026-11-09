@@ -33,11 +33,11 @@ int main(void)
         lex_next_tok(&lexer, &tok);
 
         printf("%zu:%zu:%s: %.*s\n", 
-                tok.loc.row, 
-                tok.loc.col, 
-                lex_stringify_token_type(tok.type), 
-                (int) tok.lexeme.len, 
-                tok.lexeme.data
+                   tok.loc.row, 
+                   tok.loc.col, 
+                   lex_stringify_token_type(tok.type), 
+                   (int) tok.lexeme.len, 
+                   tok.lexeme.data
                );
         
     } while(tok.type != TOK_EOF && tok.type != TOK_ERR);
