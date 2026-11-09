@@ -470,13 +470,17 @@ Token lex__number(Lexer *lexer)
 {
     while (isdigit((unsigned char) lex__peek(lexer))) lex__advance(lexer);
 
-    if ('.' == lex__peek(lexer) && isdigit((unsigned char) lex__peek_next(lexer)))
+    if ('.' == lex__peek(lexer))
     {
-        // TODO alnum may have been better here
         lex__advance(lexer);
         while(isdigit((unsigned char) lex__peek(lexer))) lex__advance(lexer);
-        while(isalpha((unsigned char) lex__peek(lexer))) lex__advance(lexer);
-        return lex__make_tok(lexer, TOK_NUM_LIT);
+    }
+
+    if ('e' == lex__peek(lexer) || 'E' == lex__peek(lexer))
+    {
+        lex__advance(lexer);
+        if('-' == lex__peek(lexer) || '+' == lex__peek(lexer)) lex__advance(lexer);
+        while (isdigit((unsigned char) lex__peek(lexer))) lex__advance(lexer);
     }
 
     while (isalnum((unsigned char) lex__peek(lexer))) lex__advance(lexer);
