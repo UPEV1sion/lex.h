@@ -49,5 +49,17 @@ unsigned, TOK_UNSIGNED
 void, TOK_VOID
 volatile, TOK_VOLATILE
 while, TOK_WHILE
+_Bool, TOK__BOOL
+_Complex, TOK__COMPLEX
+_Imaginary, TOK__IMAGINARY
+inline, TOK_INLINE
+restrict, TOK_RESTRICT
+_Alignas, TOK__ALIGNAS
+_Alignof, TOK__ALIGNOF
+_Atomic, TOK__ATOMIC
+_Generic, TOK__GENERIC
+_Noreturn, TOK__NORETURN
+_Static_assert, TOK__STATIC_ASSERT
+_Thread_local, TOK__THREAD_LOCAL
 %%
 
