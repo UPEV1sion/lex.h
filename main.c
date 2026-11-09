@@ -1,23 +1,32 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
 
 #define LEX_IMPLEMENTATION
 #include "lex.h"
 
 int main(void)
 {
-    char buffer[4096];
-    FILE *f = fopen("test.c", "r");
-    size_t size = fread(buffer, 1, sizeof(buffer), f);
+    const char *path = "test.c";
+    FILE *f = fopen(path, "r");
+    fseek(f, 0, SEEK_END);
+    int size = ftell(f);
+    fseek(f, 0, SEEK_SET);
+
+    char *buf = malloc(size + 1);
+    size_t read = fread(buf, 1, size, f);
+    assert(read == (size_t) size);
+    buf[size] = 0;
 
     Lexer lexer;
-    lex_init_sv(&lexer, sv(buffer, size));
+    lex_init_sv(&lexer, sv(buf, size));
 
     Token tok;
     do
     {
         lex_next_tok(&lexer, &tok);
-
-        printf("%zu:%zu:%s: %.*s\n", 
+        printf("%s:%zu:%zu:%s: %.*s\n", 
+                path,
                 tok.loc.row, 
                 tok.loc.col, 
                 lex_stringify_token_type(tok.type), 

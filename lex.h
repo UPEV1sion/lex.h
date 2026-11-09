@@ -49,6 +49,7 @@
 	X(TOK_WHILE) \
     /* OPERATORS */ \
     X(TOK_DOT) \
+    X(TOK_ELLIPSIS) \
     X(TOK_ARROW) \
     X(TOK_QUESTION) \
     X(TOK_COLON) \
@@ -522,7 +523,19 @@ int lex_next_tok(Lexer *lexer, Token *tok)
         case ']': *tok = lex__make_tok(lexer, TOK_CBRACKET); return 0;
         case ';': *tok = lex__make_tok(lexer, TOK_SEMICOLON); return 0;
         case ',': *tok = lex__make_tok(lexer, TOK_COMMA); return 0;
-        case '.': *tok = lex__make_tok(lexer, TOK_DOT); return 0;
+        case '.': {
+            if('.' == lex__peek(lexer) && '.' == lex__peek_next(lexer))
+            {
+                lex__advance(lexer);
+                lex__advance(lexer);
+                *tok = lex__make_tok(lexer, TOK_ELLIPSIS);
+            }
+            else
+            {
+                *tok = lex__make_tok(lexer, TOK_DOT); 
+            }
+            return 0;
+        }
         case '-': {
             if (lex__match(lexer, '>'))      *tok = lex__make_tok(lexer, TOK_ARROW);
             else if (lex__match(lexer, '-')) *tok = lex__make_tok(lexer, TOK_MINUS_MINUS);
