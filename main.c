@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#define LEX_NO_KEYWORDS
 #define LEX_IMPLEMENTATION
 #include "lex.h"
 
@@ -26,12 +27,12 @@ int main(void)
     {
         lex_next_tok(&lexer, &tok);
         printf("%s:%zu:%zu:%s: %.*s\n", 
-                path,
-                tok.loc.row, 
-                tok.loc.col, 
-                lex_stringify_token_type(tok.type), 
-                (int) tok.lexeme.len, 
-                tok.lexeme.data
+                   path,
+                   tok.loc.row, 
+                   tok.loc.col, 
+                   lex_stringify_token_type(tok.type), 
+                   (int) tok.lexeme.len, 
+                   tok.lexeme.data
                );
         
     } while(tok.type != TOK_EOF && tok.type != TOK_ERR);

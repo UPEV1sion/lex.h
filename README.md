@@ -1,6 +1,11 @@
 # Header-Only Scratch Lexer
 
-This serves as replacement for stb\_lexer.
+> [!WARNING]
+> This lexer is work in progress! Anything can change at any moment without any notice! Use this lexer at your own risk!
+
+This serves as an scratch lexer for quickly prototyping parsers.
+It _can_ recoginize all keywords of C up to C11.
+However if such behavior is unwanted and all keywords should be recognized as identifier the `LEX_NO_KEYWORDS` macro should be defined _before_ including the header.
 
 ## API
 
@@ -15,6 +20,7 @@ const char* lex_stringify_token_type(TokenType type);
 ```c
 #include <stdio.h>
 
+// #define LEX_NO_KEYWORDS
 #define LEX_IMPLEMENTATION
 #include "lex.h"
 
