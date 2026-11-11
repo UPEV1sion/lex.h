@@ -9,4 +9,7 @@
 !*.gperf
 !*.expected
 !*.bash
+!*.nix
+!*.lock
+!*.yml
 !**/
