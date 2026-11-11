@@ -1,4 +1,4 @@
-int main(void)
+float main(void)
 {
     return 0;
 }
