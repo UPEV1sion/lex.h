@@ -3,7 +3,7 @@ on:
   pull_request:
   push:
 jobs:
-  build-lex.h:
+  build-lex:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
