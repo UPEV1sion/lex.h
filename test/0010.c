@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <stdarg.h>
+
+// // // Comment
+// /* Comment */
+/* Comment /* */
+
+#define ITER 100
+#define shift_args(argc, argv) \
+    ((argc)--, *(argv)++)
+
+void print_int(const int x)
+{
+    printf("%d", x);
+}
+
+void print_double(const double x)
+{
+    printf("%f", x);
+}
+
+void foo(void *first, ...)
+{
+    va_list ap;
+    va_start(ap, first);
+    int arg = va_arg(ap, int);
+    printf("%d\n", arg);
+    va_end(ap);
+}
+
+int main(int argc, char **argv)
+{
+    const char *program = shift_args(argc, argv);
+    puts(program);
+    const char *restrict msg = "\"Hello, World\n\\\r\n\a\b\v\"";
+    for(int i = 0; i < ITER; ++i)
+    {
+        puts(msg);
+    }
+    _Generic
+    foo(msg, 42);
+    foo(msg, 00123);
+    foo(msg, 0xFF);
+    foo(msg, (int) 1.f);
+    foo(msg, (int) 1.0f);
+    foo(msg, (int) 1e-3f);
+    foo(msg, (int) 1e+3f);
+    foo(msg, (int) 1E3f);
+    foo(msg, (int) 1.E-3f);
+    foo(msg, (int) 1E+3f);
+
+    print(123 & 0xFF);
+    print(1 << 2);
+    print(8 >> 1);
+    print(1.);
+    return 0;
+}
