@@ -470,16 +470,15 @@ Token lex__number(Lexer *lexer)
 {
     while (isdigit((unsigned char) lex__peek(lexer))) lex__advance(lexer);
 
-    if ('.' == lex__peek(lexer))
+    if (lex__match(lexer, '.'))
     {
-        lex__advance(lexer);
         while(isdigit((unsigned char) lex__peek(lexer))) lex__advance(lexer);
     }
 
-    if ('e' == lex__peek(lexer) || 'E' == lex__peek(lexer))
+    if (lex__match(lexer, 'e') || lex__match(lexer, 'E'))
     {
-        lex__advance(lexer);
-        if('-' == lex__peek(lexer) || '+' == lex__peek(lexer)) lex__advance(lexer);
+        lex__match(lexer, '+');
+        lex__match(lexer, '-');
         while (isdigit((unsigned char) lex__peek(lexer))) lex__advance(lexer);
     }
 
@@ -493,6 +492,7 @@ Token lex__string(Lexer *lexer)
     while ('"' != lex__peek(lexer) && !lex__is_end(lexer))
     {
         if('\n' == lex__peek(lexer)) return lex__error_tok(lexer, sv_lit("Multiline strings are not supported."));
+        lex__match(lexer, '\\');
         lex__advance(lexer);
     }
 
