@@ -79,13 +79,13 @@ int main(int argc, char **argv)
                 slice = strtok(NULL, " \t");
                 tok_count++;
             }
-
-
         } while(tok.type != TOK_EOF && tok.type != TOK_ERR);
 
         fclose(f);
         fclose(expected_f);
         free(buf);
+
+        printf("Test for file '%s' succeed\n", path);
     }
 
     return 0;

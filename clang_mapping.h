@@ -42,12 +42,12 @@ typedef struct ClangMapping {
 #line 16 "clang_mapping.gperf"
 struct ClangMapping;
 
-#define CLANG_TOTAL_KEYWORDS 93
+#define CLANG_TOTAL_KEYWORDS 94
 #define CLANG_MIN_WORD_LENGTH 2
 #define CLANG_MAX_WORD_LENGTH 19
 #define CLANG_MIN_HASH_VALUE 4
-#define CLANG_MAX_HASH_VALUE 175
-/* maximum key range = 172, duplicates = 0 */
+#define CLANG_MAX_HASH_VALUE 165
+/* maximum key range = 162, duplicates = 0 */
 
 #ifdef __GNUC__
 __inline
@@ -61,32 +61,32 @@ clang_hash (register const char *str, register size_t len)
 {
   static const unsigned char asso_values[] =
     {
-      176, 176, 176, 176, 176, 176, 176, 176, 176, 176,
-      176, 176, 176, 176, 176, 176, 176, 176, 176, 176,
-      176, 176, 176, 176, 176, 176, 176, 176, 176, 176,
-      176, 176, 176, 176, 176, 176, 176, 176, 176, 176,
-      176, 176, 176, 176, 176, 176, 176, 176, 176, 176,
-      176, 176, 176, 176, 176, 176, 176, 176, 176, 176,
-      176, 176, 176, 176, 176, 176,  35,  40,  75, 176,
-      176, 176,   5, 176,  15, 176, 176, 176, 176,  35,
-      176, 176, 176, 176,  25,   5, 176, 176, 176, 176,
-      176, 176, 176, 176, 176,  30,  25,  35,  15,  60,
-       10,  30,  10,  35,   0,  55,  20,  30,   5,   0,
-       40,  45,   0,  35,   0,   0,   5,  85,  10,  35,
-        0,   0,  60, 176, 176, 176, 176, 176, 176, 176,
-      176, 176, 176, 176, 176, 176, 176, 176, 176, 176,
-      176, 176, 176, 176, 176, 176, 176, 176, 176, 176,
-      176, 176, 176, 176, 176, 176, 176, 176, 176, 176,
-      176, 176, 176, 176, 176, 176, 176, 176, 176, 176,
-      176, 176, 176, 176, 176, 176, 176, 176, 176, 176,
-      176, 176, 176, 176, 176, 176, 176, 176, 176, 176,
-      176, 176, 176, 176, 176, 176, 176, 176, 176, 176,
-      176, 176, 176, 176, 176, 176, 176, 176, 176, 176,
-      176, 176, 176, 176, 176, 176, 176, 176, 176, 176,
-      176, 176, 176, 176, 176, 176, 176, 176, 176, 176,
-      176, 176, 176, 176, 176, 176, 176, 176, 176, 176,
-      176, 176, 176, 176, 176, 176, 176, 176, 176, 176,
-      176, 176, 176, 176, 176, 176, 176
+      166, 166, 166, 166, 166, 166, 166, 166, 166, 166,
+      166, 166, 166, 166, 166, 166, 166, 166, 166, 166,
+      166, 166, 166, 166, 166, 166, 166, 166, 166, 166,
+      166, 166, 166, 166, 166, 166, 166, 166, 166, 166,
+      166, 166, 166, 166, 166, 166, 166, 166, 166, 166,
+      166, 166, 166, 166, 166, 166, 166, 166, 166, 166,
+      166, 166, 166, 166, 166, 166,  45,   0,  75, 166,
+      166, 166,  25, 166,   0, 166, 166, 166, 166,  20,
+      166, 166, 166, 166,   0,  10, 166, 166, 166, 166,
+      166, 166, 166, 166, 166,  45,  45,  50,  15,  40,
+        5,  30,  10,  35,   0,  25,  20,   0,   5,   0,
+       40,  40,   0,   5,   0,   0,  45,  80,  15,  55,
+        0,  65,  15, 166, 166, 166, 166, 166, 166, 166,
+      166, 166, 166, 166, 166, 166, 166, 166, 166, 166,
+      166, 166, 166, 166, 166, 166, 166, 166, 166, 166,
+      166, 166, 166, 166, 166, 166, 166, 166, 166, 166,
+      166, 166, 166, 166, 166, 166, 166, 166, 166, 166,
+      166, 166, 166, 166, 166, 166, 166, 166, 166, 166,
+      166, 166, 166, 166, 166, 166, 166, 166, 166, 166,
+      166, 166, 166, 166, 166, 166, 166, 166, 166, 166,
+      166, 166, 166, 166, 166, 166, 166, 166, 166, 166,
+      166, 166, 166, 166, 166, 166, 166, 166, 166, 166,
+      166, 166, 166, 166, 166, 166, 166, 166, 166, 166,
+      166, 166, 166, 166, 166, 166, 166, 166, 166, 166,
+      166, 166, 166, 166, 166, 166, 166, 166, 166, 166,
+      166, 166, 166, 166, 166, 166, 166
     };
   return len + asso_values[(unsigned char)str[1]+1] + asso_values[(unsigned char)str[0]] + asso_values[(unsigned char)str[len - 1]];
 }
@@ -115,19 +115,18 @@ static const struct ClangMapping clang_wordlist[] =
     {"register", TOK_REGISTER},
 #line 46 "clang_mapping.gperf"
     {"less", TOK_LT},
-#line 77 "clang_mapping.gperf"
-    {"float", TOK_FLOAT},
+#line 66 "clang_mapping.gperf"
+    {"break", TOK_BREAK},
+#line 25 "clang_mapping.gperf"
+    {"period", TOK_DOT},
     {"",0},
-#line 44 "clang_mapping.gperf"
-    {"percent", TOK_MOD},
 #line 47 "clang_mapping.gperf"
     {"lessless", TOK_LSHIFT},
 #line 93 "clang_mapping.gperf"
     {"void", TOK_VOID},
 #line 35 "clang_mapping.gperf"
     {"minus", TOK_MINUS},
-#line 25 "clang_mapping.gperf"
-    {"period", TOK_DOT},
+    {"",0},
 #line 45 "clang_mapping.gperf"
     {"percentequal", TOK_MOD_ASSIGN},
     {"",0},
@@ -135,173 +134,182 @@ static const struct ClangMapping clang_wordlist[] =
     {"lessequal", TOK_LE},
 #line 37 "clang_mapping.gperf"
     {"minusminus", TOK_DEC},
+#line 86 "clang_mapping.gperf"
+    {"signed", TOK_SIGNED},
     {"",0},
-#line 71 "clang_mapping.gperf"
-    {"default", TOK_DEFAULT},
 #line 49 "clang_mapping.gperf"
     {"lesslessequal", TOK_LSHIFT_ASSIGN},
 #line 58 "clang_mapping.gperf"
     {"pipeequal", TOK_OR_ASSIGN},
 #line 38 "clang_mapping.gperf"
     {"minusequal", TOK_MINUS_ASSIGN},
-#line 86 "clang_mapping.gperf"
-    {"signed", TOK_SIGNED},
-#line 40 "clang_mapping.gperf"
-    {"exclaim", TOK_BANG},
+    {"",0}, {"",0},
 #line 26 "clang_mapping.gperf"
     {"ellipsis", TOK_ELLIPSIS},
-    {"",0},
+#line 61 "clang_mapping.gperf"
+    {"semi", TOK_SEMI},
 #line 62 "clang_mapping.gperf"
     {"equal", TOK_ASSIGN},
-    {"",0},
+#line 73 "clang_mapping.gperf"
+    {"double", TOK_DOUBLE},
 #line 50 "clang_mapping.gperf"
     {"greater", TOK_GT},
-#line 107 "clang_mapping.gperf"
+#line 108 "clang_mapping.gperf"
     {"eof", TOK_EOF},
 #line 82 "clang_mapping.gperf"
     {"long", TOK_LONG},
 #line 63 "clang_mapping.gperf"
     {"equalequal", TOK_EQ},
-#line 73 "clang_mapping.gperf"
-    {"double", TOK_DOUBLE},
-#line 41 "clang_mapping.gperf"
-    {"exclaimequal", TOK_NE},
-#line 94 "clang_mapping.gperf"
-    {"volatile", TOK_VOLATILE},
-#line 51 "clang_mapping.gperf"
-    {"greatergreater", TOK_RSHIFT},
-#line 66 "clang_mapping.gperf"
-    {"break", TOK_BREAK},
     {"",0},
-#line 52 "clang_mapping.gperf"
-    {"greaterequal", TOK_GE},
-#line 106 "clang_mapping.gperf"
-    {"_Thread_local", TOK__THREAD_LOCAL},
-#line 56 "clang_mapping.gperf"
-    {"pipe", TOK_OR},
-#line 102 "clang_mapping.gperf"
-    {"_Imaginary", TOK__IMAGINARY},
-#line 84 "clang_mapping.gperf"
-    {"return", TOK_RETURN},
 #line 72 "clang_mapping.gperf"
     {"do", TOK_DO},
+    {"",0},
+#line 51 "clang_mapping.gperf"
+    {"greatergreater", TOK_RSHIFT},
+    {"",0}, {"",0},
+#line 52 "clang_mapping.gperf"
+    {"greaterequal", TOK_GE},
+#line 94 "clang_mapping.gperf"
+    {"volatile", TOK_VOLATILE},
+#line 56 "clang_mapping.gperf"
+    {"pipe", TOK_OR},
+#line 101 "clang_mapping.gperf"
+    {"_Bool", TOK__BOOL},
+#line 84 "clang_mapping.gperf"
+    {"return", TOK_RETURN},
+    {"",0},
 #line 57 "clang_mapping.gperf"
     {"pipepipe", TOK_OR_OR},
 #line 53 "clang_mapping.gperf"
     {"greatergreaterequal", TOK_RSHIFT_ASSIGN},
-#line 39 "clang_mapping.gperf"
-    {"tilde", TOK_TILDE},
+#line 77 "clang_mapping.gperf"
+    {"float", TOK_FLOAT},
     {"",0},
+#line 44 "clang_mapping.gperf"
+    {"percent", TOK_MOD},
+#line 97 "clang_mapping.gperf"
+    {"restrict", TOK_RESTRICT},
+#line 74 "clang_mapping.gperf"
+    {"else", TOK_ELSE},
+#line 109 "clang_mapping.gperf"
+    {"identifier", TOK_ID},
+    {"",0},
+#line 71 "clang_mapping.gperf"
+    {"default", TOK_DEFAULT},
+#line 59 "clang_mapping.gperf"
+    {"question", TOK_QUESTION},
+#line 68 "clang_mapping.gperf"
+    {"char", TOK_CHAR},
+#line 55 "clang_mapping.gperf"
+    {"caretequal", TOK_XOR_ASSIGN},
+    {"",0},
+#line 80 "clang_mapping.gperf"
+    {"if", TOK_IF},
+#line 107 "clang_mapping.gperf"
+    {"_Thread_local", TOK__THREAD_LOCAL},
+#line 75 "clang_mapping.gperf"
+    {"enum", TOK_ENUM},
+#line 85 "clang_mapping.gperf"
+    {"short", TOK_SHORT},
+    {"",0},
+#line 90 "clang_mapping.gperf"
+    {"typedef", TOK_TYPEDEF},
+#line 70 "clang_mapping.gperf"
+    {"continue", TOK_CONTINUE},
+#line 79 "clang_mapping.gperf"
+    {"goto", TOK_GOTO},
+    {"",0}, {"",0},
 #line 24 "clang_mapping.gperf"
     {"r_brace", TOK_CBRACE},
 #line 20 "clang_mapping.gperf"
     {"r_square", TOK_CBRACKET},
-#line 74 "clang_mapping.gperf"
-    {"else", TOK_ELSE},
-#line 85 "clang_mapping.gperf"
-    {"short", TOK_SHORT},
+#line 30 "clang_mapping.gperf"
+    {"star", TOK_STAR},
+#line 60 "clang_mapping.gperf"
+    {"colon", TOK_COLON},
     {"",0},
 #line 23 "clang_mapping.gperf"
     {"l_brace", TOK_OBRACE},
 #line 19 "clang_mapping.gperf"
     {"l_square", TOK_OBRACKET},
-#line 61 "clang_mapping.gperf"
-    {"semi", TOK_SEMI},
+#line 67 "clang_mapping.gperf"
+    {"case", TOK_CASE},
 #line 69 "clang_mapping.gperf"
     {"const", TOK_CONST},
-#line 109 "clang_mapping.gperf"
-    {"numeric_constant", TOK_NUM_LIT},
+    {"",0},
 #line 22 "clang_mapping.gperf"
     {"r_paren", TOK_CPAREN},
-#line 97 "clang_mapping.gperf"
-    {"_Alignas", TOK__ALIGNAS},
-#line 105 "clang_mapping.gperf"
-    {"_Static_assert", TOK__STATIC_ASSERT},
-#line 36 "clang_mapping.gperf"
-    {"arrow", TOK_ARROW},
-#line 76 "clang_mapping.gperf"
-    {"extern", TOK_EXTERN},
-#line 21 "clang_mapping.gperf"
-    {"l_paren", TOK_OPAREN},
 #line 27 "clang_mapping.gperf"
     {"amp", TOK_AND},
-#line 75 "clang_mapping.gperf"
-    {"enum", TOK_ENUM},
-#line 100 "clang_mapping.gperf"
-    {"_Bool", TOK__BOOL},
-#line 28 "clang_mapping.gperf"
-    {"ampamp", TOK_AND_AND},
-#line 90 "clang_mapping.gperf"
-    {"typedef", TOK_TYPEDEF},
-#line 98 "clang_mapping.gperf"
-    {"_Alignof", TOK__ALIGNOF},
-#line 79 "clang_mapping.gperf"
-    {"goto", TOK_GOTO},
-#line 54 "clang_mapping.gperf"
-    {"caret", TOK_XOR},
-    {"",0}, {"",0},
-#line 29 "clang_mapping.gperf"
-    {"ampequal", TOK_AND_ASSIGN},
-#line 30 "clang_mapping.gperf"
-    {"star", TOK_STAR},
-#line 55 "clang_mapping.gperf"
-    {"caretequal", TOK_XOR_ASSIGN},
-    {"",0}, {"",0},
-#line 59 "clang_mapping.gperf"
-    {"question", TOK_QUESTION},
-#line 65 "clang_mapping.gperf"
-    {"auto", TOK_AUTO},
-#line 108 "clang_mapping.gperf"
-    {"identifier", TOK_ID},
-#line 88 "clang_mapping.gperf"
-    {"struct", TOK_STRUCT},
-    {"",0},
-#line 70 "clang_mapping.gperf"
-    {"continue", TOK_CONTINUE},
 #line 31 "clang_mapping.gperf"
     {"starequal", TOK_STAR_ASSIGN},
 #line 64 "clang_mapping.gperf"
     {"comma", TOK_COMMA},
-    {"",0},
-#line 80 "clang_mapping.gperf"
-    {"if", TOK_IF},
-#line 103 "clang_mapping.gperf"
-    {"_Generic", TOK__GENERIC},
-#line 110 "clang_mapping.gperf"
-    {"string_literal", TOK_STR_LIT},
-#line 60 "clang_mapping.gperf"
-    {"colon", TOK_COLON},
-    {"",0}, {"",0},
-#line 81 "clang_mapping.gperf"
-    {"int", TOK_INT},
-#line 67 "clang_mapping.gperf"
-    {"case", TOK_CASE},
-    {"",0}, {"",0}, {"",0},
-#line 101 "clang_mapping.gperf"
-    {"_Complex", TOK__COMPLEX},
-#line 104 "clang_mapping.gperf"
-    {"_Noreturn", TOK__NORETURN},
-    {"",0}, {"",0}, {"",0}, {"",0},
-#line 68 "clang_mapping.gperf"
-    {"char", TOK_CHAR},
-    {"",0}, {"",0}, {"",0}, {"",0}, {"",0},
-#line 95 "clang_mapping.gperf"
-    {"while", TOK_WHILE},
-    {"",0}, {"",0}, {"",0}, {"",0}, {"",0}, {"",0},
-#line 99 "clang_mapping.gperf"
-    {"_Atomic", TOK__ATOMIC},
+#line 28 "clang_mapping.gperf"
+    {"ampamp", TOK_AND_AND},
+#line 21 "clang_mapping.gperf"
+    {"l_paren", TOK_OPAREN},
+#line 98 "clang_mapping.gperf"
+    {"_Alignas", TOK__ALIGNAS},
 #line 111 "clang_mapping.gperf"
-    {"char_constant", TOK_CHAR_LIT},
-    {"",0}, {"",0},
+    {"string_literal", TOK_STR_LIT},
+#line 39 "clang_mapping.gperf"
+    {"tilde", TOK_TILDE},
 #line 96 "clang_mapping.gperf"
     {"inline", TOK_INLINE},
-    {"",0}, {"",0}, {"",0}, {"",0}, {"",0}, {"",0}, {"",0},
-    {"",0}, {"",0}, {"",0}, {"",0},
-#line 92 "clang_mapping.gperf"
-    {"unsigned", TOK_UNSIGNED},
+#line 40 "clang_mapping.gperf"
+    {"exclaim", TOK_BANG},
+#line 29 "clang_mapping.gperf"
+    {"ampequal", TOK_AND_ASSIGN},
+#line 106 "clang_mapping.gperf"
+    {"_Static_assert", TOK__STATIC_ASSERT},
+#line 54 "clang_mapping.gperf"
+    {"caret", TOK_XOR},
+    {"",0}, {"",0},
+#line 99 "clang_mapping.gperf"
+    {"_Alignof", TOK__ALIGNOF},
+#line 65 "clang_mapping.gperf"
+    {"auto", TOK_AUTO},
+#line 36 "clang_mapping.gperf"
+    {"arrow", TOK_ARROW},
+    {"",0},
+#line 41 "clang_mapping.gperf"
+    {"exclaimequal", TOK_NE},
+#line 81 "clang_mapping.gperf"
+    {"int", TOK_INT},
+#line 105 "clang_mapping.gperf"
+    {"_Noreturn", TOK__NORETURN},
+#line 95 "clang_mapping.gperf"
+    {"while", TOK_WHILE},
+#line 110 "clang_mapping.gperf"
+    {"numeric_constant", TOK_NUM_LIT},
+    {"",0},
+#line 104 "clang_mapping.gperf"
+    {"_Generic", TOK__GENERIC},
+    {"",0},
+#line 103 "clang_mapping.gperf"
+    {"_Imaginary", TOK__IMAGINARY},
+    {"",0}, {"",0},
+#line 112 "clang_mapping.gperf"
+    {"char_constant", TOK_CHAR_LIT},
     {"",0}, {"",0},
 #line 87 "clang_mapping.gperf"
     {"static", TOK_STATIC},
+    {"",0},
+#line 102 "clang_mapping.gperf"
+    {"_Complex", TOK__COMPLEX},
+    {"",0}, {"",0},
+#line 88 "clang_mapping.gperf"
+    {"struct", TOK_STRUCT},
+    {"",0},
+#line 92 "clang_mapping.gperf"
+    {"unsigned", TOK_UNSIGNED},
+    {"",0}, {"",0}, {"",0},
+#line 100 "clang_mapping.gperf"
+    {"_Atomic", TOK__ATOMIC},
+    {"",0}, {"",0}, {"",0},
+#line 76 "clang_mapping.gperf"
+    {"extern", TOK_EXTERN},
     {"",0}, {"",0}, {"",0}, {"",0}, {"",0}, {"",0}, {"",0},
     {"",0}, {"",0}, {"",0}, {"",0}, {"",0}, {"",0}, {"",0},
     {"",0}, {"",0}, {"",0}, {"",0}, {"",0}, {"",0}, {"",0},
@@ -327,6 +335,6 @@ clang_lookup_function (register const char *str, register size_t len)
     }
   return 0;
 }
-#line 112 "clang_mapping.gperf"
+#line 113 "clang_mapping.gperf"
 
 
