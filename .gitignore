@@ -7,3 +7,5 @@
 !*.c
 !*.h
 !*.gperf
+!*expected
+!**/
