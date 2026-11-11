@@ -32,7 +32,7 @@
 #line 1 "clang_mapping.gperf"
 
 #include <string.h>
-#include "lex.h"
+#include "../lex.h"
 
 typedef struct ClangMapping {
     char *name;

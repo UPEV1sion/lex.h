@@ -1,6 +1,6 @@
 %{
 #include <string.h>
-#include "lex.h"
+#include "../lex.h"
 
 typedef struct ClangMapping {
     char *name;

@@ -3,7 +3,7 @@
 #include <assert.h>
 
 #define LEX_IMPLEMENTATION
-#include "lex.h"
+#include "../lex.h"
 
 #include "clang_mapping.h"
 

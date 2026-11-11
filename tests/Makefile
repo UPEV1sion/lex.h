@@ -5,7 +5,7 @@ CFLAGS := -Wall -Wextra -pedantic -std=c11 -ggdb
 
 all: test
 
-test: test.c lex.h clang_mapping.h
+test: test.c ../lex.h clang_mapping.h
 	$(CC) $(CFLAGS) -o $@ $^
 
 clang_mapping.h: clang_mapping.gperf
