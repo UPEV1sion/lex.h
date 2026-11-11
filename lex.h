@@ -106,8 +106,6 @@
     /* IDENTIFIER */ \
     X(TOK_ID) \
 	/* SPECIAL */ \
-    X(TOK_HASH) /* this decission was made for easier testing */ \
-    X(TOK_HASH_HASH) \
     X(TOK_EOF) \
     X(TOK_ERR)
 
@@ -441,6 +439,22 @@ void lex__trim_left(Lexer *lexer)
                 break;
             }
         }
+        else if(lex__match(lexer, '#'))
+        {
+            while('\n' != lex__peek(lexer))
+            {
+                if('\\' == lex__peek(lexer) && '\n' == lex__peek_next(lexer))
+                {
+                    lex__advance(lexer);
+                    lex__advance(lexer);
+                }
+                else
+                {
+                    lex__advance(lexer);
+                }
+            }
+            lex__advance(lexer);
+        }
         else
         {
             break;
@@ -614,7 +628,6 @@ int lex_next_tok(Lexer *lexer, Token *tok)
         case '%': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_MOD_ASSIGN : TOK_MOD); return 0;
         case '?': *tok = lex__make_tok(lexer, TOK_QUESTION); return 0;
         case ':': *tok = lex__make_tok(lexer, TOK_COLON); return 0;
-        case '#': *tok = lex__make_tok(lexer, lex__match(lexer, '#') ? TOK_HASH_HASH : TOK_HASH); return 0;
         case '"': *tok = lex__string(lexer); return 0;
         case '\'': *tok = lex__char(lexer); return 0;
     }
