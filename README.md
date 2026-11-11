@@ -15,6 +15,7 @@ void lex_init(Lexer *lexer, const char *source);
 void lex_init_sv(Lexer *lexer, StringView source);
 const char* lex_stringify_token_type(TokenType type);
 ``` 
+
 ## Usage
 
 ```c
@@ -53,3 +54,10 @@ int main(void)
     return 0;
 }
 ``` 
+
+## Testing
+
+I validate my lexer against the clang lexer.
+I wrote some C files with increasing complexity and the run `clang -cc1 -dump-tokens ...` on the file and saved the output in the `.expected` files.
+The output of the clang lexer is then parsed by `test.c` and validated against my lexer output.
+This test set is by no means complete and work in progress.
