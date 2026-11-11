@@ -71,14 +71,14 @@
     X(TOK_STAR) \
     X(TOK_SLASH) \
     X(TOK_MOD) \
-    X(TOK_PLUS_PLUS) \
-    X(TOK_MINUS_MINUS) \
-    X(TOK_EQ_EQ) \
-    X(TOK_BANG_EQ) \
-    X(TOK_GREATER) \
-    X(TOK_LESS) \
-    X(TOK_GREATER_EQ) \
-    X(TOK_LESS_EQ) \
+    X(TOK_INC) \
+    X(TOK_DEC) \
+    X(TOK_EQ) \
+    X(TOK_NE) \
+    X(TOK_GT) \
+    X(TOK_LT) \
+    X(TOK_GE) \
+    X(TOK_LE) \
     X(TOK_BANG) \
     X(TOK_AND_AND) \
     X(TOK_OR_OR) \
@@ -86,19 +86,19 @@
     X(TOK_AND) \
     X(TOK_OR) \
     X(TOK_XOR) \
-    X(TOK_SHIFT_LEFT) \
-    X(TOK_SHIFT_RIGHT) \
-    X(TOK_EQ) \
-    X(TOK_PLUS_EQ) \
-    X(TOK_MINUS_EQ) \
-    X(TOK_STAR_EQ) \
-    X(TOK_SLASH_EQ) \
-    X(TOK_MOD_EQ) \
-    X(TOK_AND_EQ) \
-    X(TOK_OR_EQ) \
-    X(TOK_XOR_EQ) \
-    X(TOK_SHIFT_LEFT_EQ) \
-    X(TOK_SHIFT_RIGHT_EQ) \
+    X(TOK_LSHIFT) \
+    X(TOK_RSHIFT) \
+    X(TOK_ASSIGN) \
+    X(TOK_PLUS_ASSIGN) \
+    X(TOK_MINUS_ASSIGN) \
+    X(TOK_STAR_ASSIGN) \
+    X(TOK_SLASH_ASSIGN) \
+    X(TOK_MOD_ASSIGN) \
+    X(TOK_AND_ASSIGN) \
+    X(TOK_OR_ASSIGN) \
+    X(TOK_XOR_ASSIGN) \
+    X(TOK_LSHIFT_ASSIGN) \
+    X(TOK_RSHIFT_ASSIGN) \
     /* LITERALS */ \
     X(TOK_NUM_LIT) \
     X(TOK_CHAR_LIT) \
@@ -106,6 +106,8 @@
     /* IDENTIFIER */ \
     X(TOK_ID) \
 	/* SPECIAL */ \
+    X(TOK_HASH) /* this decission was made for easier testing */ \
+    X(TOK_HASH_HASH) \
     X(TOK_EOF) \
     X(TOK_ERR)
 
@@ -401,7 +403,6 @@ bool lex__expect(Lexer *lexer, char expected, StringView err_msg, Token *tok)
 
 void lex__trim_left(Lexer *lexer)
 {
-    
     for(;;)
     {
         while(isspace((unsigned char) lex__peek(lexer)))
@@ -434,6 +435,10 @@ void lex__trim_left(Lexer *lexer)
                         lex__advance(lexer); 
                     }
                 }
+            }
+            else
+            {
+                break;
             }
         }
         else
@@ -565,50 +570,51 @@ int lex_next_tok(Lexer *lexer, Token *tok)
         }
         case '-': {
             if (lex__match(lexer, '>'))      *tok = lex__make_tok(lexer, TOK_ARROW);
-            else if (lex__match(lexer, '-')) *tok = lex__make_tok(lexer, TOK_MINUS_MINUS);
-            else if (lex__match(lexer, '=')) *tok = lex__make_tok(lexer, TOK_MINUS_EQ);
+            else if (lex__match(lexer, '-')) *tok = lex__make_tok(lexer, TOK_DEC);
+            else if (lex__match(lexer, '=')) *tok = lex__make_tok(lexer, TOK_MINUS_ASSIGN);
             else                             *tok = lex__make_tok(lexer, TOK_MINUS);
             return 0;
         } 
         case '+':  {
-            if (lex__match(lexer, '+'))      *tok = lex__make_tok(lexer, TOK_PLUS_PLUS);
-            else if (lex__match(lexer, '=')) *tok = lex__make_tok(lexer, TOK_PLUS_EQ);
+            if (lex__match(lexer, '+'))      *tok = lex__make_tok(lexer, TOK_INC);
+            else if (lex__match(lexer, '=')) *tok = lex__make_tok(lexer, TOK_PLUS_ASSIGN);
             else                             *tok = lex__make_tok(lexer, TOK_PLUS);
             return 0;
         }
-        case '*': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_STAR_EQ : TOK_STAR); return 0;
-        case '/': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_SLASH_EQ : TOK_SLASH); return 0;
-        case '!': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_BANG_EQ : TOK_BANG); return 0;
-        case '=': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_EQ_EQ : TOK_EQ); return 0;
+        case '*': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_STAR_ASSIGN : TOK_STAR); return 0;
+        case '/': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_SLASH_ASSIGN : TOK_SLASH); return 0;
+        case '!': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_NE : TOK_BANG); return 0;
+        case '=': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_EQ : TOK_ASSIGN); return 0;
         case '<':  {
-            if (lex__match(lexer, '<'))      *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_SHIFT_LEFT_EQ : TOK_SHIFT_LEFT);
-            else if (lex__match(lexer, '=')) *tok = lex__make_tok(lexer, TOK_LESS_EQ);
-            else                             *tok = lex__make_tok(lexer, TOK_LESS);
+            if (lex__match(lexer, '<'))      *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_LSHIFT_ASSIGN : TOK_LSHIFT);
+            else if (lex__match(lexer, '=')) *tok = lex__make_tok(lexer, TOK_LE);
+            else                             *tok = lex__make_tok(lexer, TOK_LT);
             return 0;
         }
         case '>':  {
-            if (lex__match(lexer, '>'))      *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_SHIFT_RIGHT_EQ : TOK_SHIFT_RIGHT);
-            else if (lex__match(lexer, '=')) *tok = lex__make_tok(lexer, TOK_GREATER_EQ);
-            else                             *tok = lex__make_tok(lexer, TOK_GREATER);
+            if (lex__match(lexer, '>'))      *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_RSHIFT_ASSIGN : TOK_RSHIFT);
+            else if (lex__match(lexer, '=')) *tok = lex__make_tok(lexer, TOK_GE);
+            else                             *tok = lex__make_tok(lexer, TOK_GT);
             return 0;
         }
-        case '^': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_XOR_EQ : TOK_XOR); return 0;
+        case '^': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_XOR_ASSIGN : TOK_XOR); return 0;
         case '|': {
             if(lex__match(lexer, '|'))       *tok = lex__make_tok(lexer, TOK_OR_OR);
-            else if(lex__match(lexer, '='))  *tok = lex__make_tok(lexer, TOK_OR_EQ);
+            else if(lex__match(lexer, '='))  *tok = lex__make_tok(lexer, TOK_OR_ASSIGN);
             else                             *tok = lex__make_tok(lexer, TOK_OR);
             return 0;
         }
         case '&': {
             if(lex__match(lexer, '&'))       *tok = lex__make_tok(lexer, TOK_AND_AND);
-            else if(lex__match(lexer, '='))  *tok = lex__make_tok(lexer, TOK_AND_EQ);
+            else if(lex__match(lexer, '='))  *tok = lex__make_tok(lexer, TOK_AND_ASSIGN);
             else                             *tok = lex__make_tok(lexer, TOK_AND);
             return 0;
         }
         case '~': *tok = lex__make_tok(lexer, TOK_TILDE); return 0;
-        case '%': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_MOD_EQ : TOK_MOD); return 0;
+        case '%': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_MOD_ASSIGN : TOK_MOD); return 0;
         case '?': *tok = lex__make_tok(lexer, TOK_QUESTION); return 0;
         case ':': *tok = lex__make_tok(lexer, TOK_COLON); return 0;
+        case '#': *tok = lex__make_tok(lexer, lex__match(lexer, '#') ? TOK_HASH_HASH : TOK_HASH); return 0;
         case '"': *tok = lex__string(lexer); return 0;
         case '\'': *tok = lex__char(lexer); return 0;
     }
