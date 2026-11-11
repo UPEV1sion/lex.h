@@ -1,3 +1,6 @@
+0007.c:1:10: fatal error: 'stdio.h' file not found
+#include <stdio.h>
+         ^~~~~~~~~
 void 'void'	 [StartOfLine]	Loc=<0007.c:7:1>
 identifier 'foo'	 [LeadingSpace]	Loc=<0007.c:7:6>
 l_paren '('		Loc=<0007.c:7:9>
@@ -117,3 +120,4 @@ numeric_constant '0'	 [LeadingSpace]	Loc=<0007.c:27:12>
 semi ';'		Loc=<0007.c:27:13>
 r_brace '}'	 [StartOfLine]	Loc=<0007.c:28:1>
 eof ''		Loc=<0007.c:28:2>
+1 error generated.

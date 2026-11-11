@@ -5,10 +5,6 @@
 // /* Comment */
 /* Comment /* */
 
-#define ITER 100
-#define shift_args(argc, argv) \
-    ((argc)--, *(argv)++)
-
 void foo(void *first, ...)
 {
     va_list ap;
@@ -20,10 +16,10 @@ void foo(void *first, ...)
 
 int main(int argc, char **argv)
 {
-    const char *program = shift_args(argc, argv);
+    const char *program = argv[0];
     puts(program);
     const char *restrict msg = "\"Hello, World\n\\\r\n\a\b\v\"";
-    for(int i = 0; i < ITER; ++i)
+    for(int i = 0; i < 100; ++i)
     {
         puts(msg);
     }

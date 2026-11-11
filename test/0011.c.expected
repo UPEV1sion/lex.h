@@ -1,0 +1,334 @@
+0011.c:1:10: fatal error: 'stdio.h' file not found
+#include <stdio.h>
+         ^~~~~~~~~
+typedef 'typedef'	 [StartOfLine]	Loc=<0011.c:17:1>
+struct 'struct'	 [LeadingSpace]	Loc=<0011.c:17:9>
+l_brace '{'	 [LeadingSpace]	Loc=<0011.c:17:16>
+int 'int'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:18:5>
+identifier 'x'	 [LeadingSpace]	Loc=<0011.c:18:9>
+comma ','		Loc=<0011.c:18:10>
+identifier 'y'	 [LeadingSpace]	Loc=<0011.c:18:12>
+semi ';'		Loc=<0011.c:18:13>
+r_brace '}'	 [StartOfLine]	Loc=<0011.c:19:1>
+identifier 'Coord'	 [LeadingSpace]	Loc=<0011.c:19:3>
+semi ';'		Loc=<0011.c:19:8>
+void 'void'	 [StartOfLine]	Loc=<0011.c:21:1>
+identifier 'print_int'	 [LeadingSpace]	Loc=<0011.c:21:6>
+l_paren '('		Loc=<0011.c:21:15>
+const 'const'		Loc=<0011.c:21:16>
+int 'int'	 [LeadingSpace]	Loc=<0011.c:21:22>
+identifier 'x'	 [LeadingSpace]	Loc=<0011.c:21:26>
+r_paren ')'		Loc=<0011.c:21:27>
+l_brace '{'	 [StartOfLine]	Loc=<0011.c:22:1>
+identifier 'printf'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:23:5>
+l_paren '('		Loc=<0011.c:23:11>
+string_literal '"%d"'		Loc=<0011.c:23:12>
+comma ','		Loc=<0011.c:23:16>
+identifier 'x'	 [LeadingSpace]	Loc=<0011.c:23:18>
+r_paren ')'		Loc=<0011.c:23:19>
+semi ';'		Loc=<0011.c:23:20>
+r_brace '}'	 [StartOfLine]	Loc=<0011.c:24:1>
+void 'void'	 [StartOfLine]	Loc=<0011.c:26:1>
+identifier 'print_double'	 [LeadingSpace]	Loc=<0011.c:26:6>
+l_paren '('		Loc=<0011.c:26:18>
+const 'const'		Loc=<0011.c:26:19>
+double 'double'	 [LeadingSpace]	Loc=<0011.c:26:25>
+identifier 'x'	 [LeadingSpace]	Loc=<0011.c:26:32>
+r_paren ')'		Loc=<0011.c:26:33>
+l_brace '{'	 [StartOfLine]	Loc=<0011.c:27:1>
+identifier 'printf'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:28:5>
+l_paren '('		Loc=<0011.c:28:11>
+string_literal '"%f"'		Loc=<0011.c:28:12>
+comma ','		Loc=<0011.c:28:16>
+identifier 'x'	 [LeadingSpace]	Loc=<0011.c:28:18>
+r_paren ')'		Loc=<0011.c:28:19>
+semi ';'		Loc=<0011.c:28:20>
+r_brace '}'	 [StartOfLine]	Loc=<0011.c:29:1>
+void 'void'	 [StartOfLine]	Loc=<0011.c:31:1>
+identifier 'foo'	 [LeadingSpace]	Loc=<0011.c:31:6>
+l_paren '('		Loc=<0011.c:31:9>
+void 'void'		Loc=<0011.c:31:10>
+star '*'	 [LeadingSpace]	Loc=<0011.c:31:15>
+identifier 'first'		Loc=<0011.c:31:16>
+comma ','		Loc=<0011.c:31:21>
+ellipsis '...'	 [LeadingSpace]	Loc=<0011.c:31:23>
+r_paren ')'		Loc=<0011.c:31:26>
+l_brace '{'	 [StartOfLine]	Loc=<0011.c:32:1>
+identifier 'va_list'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:33:5>
+identifier 'ap'	 [LeadingSpace]	Loc=<0011.c:33:13>
+semi ';'		Loc=<0011.c:33:15>
+identifier 'va_start'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:34:5>
+l_paren '('		Loc=<0011.c:34:13>
+identifier 'ap'		Loc=<0011.c:34:14>
+comma ','		Loc=<0011.c:34:16>
+identifier 'first'	 [LeadingSpace]	Loc=<0011.c:34:18>
+r_paren ')'		Loc=<0011.c:34:23>
+semi ';'		Loc=<0011.c:34:24>
+int 'int'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:35:5>
+identifier 'arg'	 [LeadingSpace]	Loc=<0011.c:35:9>
+equal '='	 [LeadingSpace]	Loc=<0011.c:35:13>
+identifier 'va_arg'	 [LeadingSpace]	Loc=<0011.c:35:15>
+l_paren '('		Loc=<0011.c:35:21>
+identifier 'ap'		Loc=<0011.c:35:22>
+comma ','		Loc=<0011.c:35:24>
+int 'int'	 [LeadingSpace]	Loc=<0011.c:35:26>
+r_paren ')'		Loc=<0011.c:35:29>
+semi ';'		Loc=<0011.c:35:30>
+identifier 'printf'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:36:5>
+l_paren '('		Loc=<0011.c:36:11>
+string_literal '"%d\n"'		Loc=<0011.c:36:12>
+comma ','		Loc=<0011.c:36:18>
+identifier 'arg'	 [LeadingSpace]	Loc=<0011.c:36:20>
+r_paren ')'		Loc=<0011.c:36:23>
+semi ';'		Loc=<0011.c:36:24>
+identifier 'va_end'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:37:5>
+l_paren '('		Loc=<0011.c:37:11>
+identifier 'ap'		Loc=<0011.c:37:12>
+r_paren ')'		Loc=<0011.c:37:14>
+semi ';'		Loc=<0011.c:37:15>
+r_brace '}'	 [StartOfLine]	Loc=<0011.c:38:1>
+int 'int'	 [StartOfLine]	Loc=<0011.c:40:1>
+identifier 'main'	 [LeadingSpace]	Loc=<0011.c:40:5>
+l_paren '('		Loc=<0011.c:40:9>
+int 'int'		Loc=<0011.c:40:10>
+identifier 'argc'	 [LeadingSpace]	Loc=<0011.c:40:14>
+comma ','		Loc=<0011.c:40:18>
+char 'char'	 [LeadingSpace]	Loc=<0011.c:40:20>
+star '*'	 [LeadingSpace]	Loc=<0011.c:40:25>
+star '*'		Loc=<0011.c:40:26>
+identifier 'argv'		Loc=<0011.c:40:27>
+r_paren ')'		Loc=<0011.c:40:31>
+l_brace '{'	 [StartOfLine]	Loc=<0011.c:41:1>
+const 'const'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:42:5>
+char 'char'	 [LeadingSpace]	Loc=<0011.c:42:11>
+star '*'	 [LeadingSpace]	Loc=<0011.c:42:16>
+identifier 'program'		Loc=<0011.c:42:17>
+equal '='	 [LeadingSpace]	Loc=<0011.c:42:25>
+l_paren '('	 [LeadingSpace]	Loc=<0011.c:42:27 <Spelling=0011.c:10:5>>
+l_paren '('		Loc=<0011.c:42:27 <Spelling=0011.c:10:6>>
+identifier 'argc'		Loc=<0011.c:42:27 <Spelling=0011.c:42:38>>
+r_paren ')'		Loc=<0011.c:42:27 <Spelling=0011.c:10:11>>
+minusminus '--'		Loc=<0011.c:42:27 <Spelling=0011.c:10:12>>
+comma ','		Loc=<0011.c:42:27 <Spelling=0011.c:10:14>>
+star '*'	 [LeadingSpace]	Loc=<0011.c:42:27 <Spelling=0011.c:10:16>>
+l_paren '('		Loc=<0011.c:42:27 <Spelling=0011.c:10:17>>
+identifier 'argv'		Loc=<0011.c:42:27 <Spelling=0011.c:42:44>>
+r_paren ')'		Loc=<0011.c:42:27 <Spelling=0011.c:10:22>>
+plusplus '++'		Loc=<0011.c:42:27 <Spelling=0011.c:10:23>>
+r_paren ')'		Loc=<0011.c:42:27 <Spelling=0011.c:10:25>>
+semi ';'		Loc=<0011.c:42:49>
+identifier 'puts'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:43:5>
+l_paren '('		Loc=<0011.c:43:9>
+identifier 'program'		Loc=<0011.c:43:10>
+r_paren ')'		Loc=<0011.c:43:17>
+semi ';'		Loc=<0011.c:43:18>
+const 'const'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:44:5>
+char 'char'	 [LeadingSpace]	Loc=<0011.c:44:11>
+star '*'	 [LeadingSpace]	Loc=<0011.c:44:16>
+restrict 'restrict'		Loc=<0011.c:44:17>
+identifier 'msg'	 [LeadingSpace]	Loc=<0011.c:44:26>
+equal '='	 [LeadingSpace]	Loc=<0011.c:44:30>
+string_literal '"\"Hello, World\n\\\r\n\a\b\v\""'	 [LeadingSpace]	Loc=<0011.c:44:32>
+semi ';'		Loc=<0011.c:44:64>
+for 'for'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:45:5>
+l_paren '('		Loc=<0011.c:45:8>
+int 'int'		Loc=<0011.c:45:9>
+identifier 'i'	 [LeadingSpace]	Loc=<0011.c:45:13>
+equal '='	 [LeadingSpace]	Loc=<0011.c:45:15>
+numeric_constant '0'	 [LeadingSpace]	Loc=<0011.c:45:17>
+semi ';'		Loc=<0011.c:45:18>
+identifier 'i'	 [LeadingSpace]	Loc=<0011.c:45:20>
+less '<'	 [LeadingSpace]	Loc=<0011.c:45:22>
+numeric_constant '100'	 [LeadingSpace]	Loc=<0011.c:45:24 <Spelling=0011.c:8:14>>
+semi ';'		Loc=<0011.c:45:28>
+plusplus '++'	 [LeadingSpace]	Loc=<0011.c:45:30>
+identifier 'i'		Loc=<0011.c:45:32>
+r_paren ')'		Loc=<0011.c:45:33>
+l_brace '{'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:46:5>
+identifier 'puts'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:47:9>
+l_paren '('		Loc=<0011.c:47:13>
+identifier 'msg'		Loc=<0011.c:47:14>
+r_paren ')'		Loc=<0011.c:47:17>
+semi ';'		Loc=<0011.c:47:18>
+r_brace '}'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:48:5>
+identifier 'foo'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:49:5>
+l_paren '('		Loc=<0011.c:49:8>
+identifier 'msg'		Loc=<0011.c:49:9>
+comma ','		Loc=<0011.c:49:12>
+numeric_constant '42'	 [LeadingSpace]	Loc=<0011.c:49:14>
+r_paren ')'		Loc=<0011.c:49:16>
+semi ';'		Loc=<0011.c:49:17>
+identifier 'foo'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:50:5>
+l_paren '('		Loc=<0011.c:50:8>
+identifier 'msg'		Loc=<0011.c:50:9>
+comma ','		Loc=<0011.c:50:12>
+numeric_constant '00123'	 [LeadingSpace]	Loc=<0011.c:50:14>
+r_paren ')'		Loc=<0011.c:50:19>
+semi ';'		Loc=<0011.c:50:20>
+identifier 'foo'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:51:5>
+l_paren '('		Loc=<0011.c:51:8>
+identifier 'msg'		Loc=<0011.c:51:9>
+comma ','		Loc=<0011.c:51:12>
+numeric_constant '0xFF'	 [LeadingSpace]	Loc=<0011.c:51:14>
+r_paren ')'		Loc=<0011.c:51:18>
+semi ';'		Loc=<0011.c:51:19>
+identifier 'foo'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:52:5>
+l_paren '('		Loc=<0011.c:52:8>
+identifier 'msg'		Loc=<0011.c:52:9>
+comma ','		Loc=<0011.c:52:12>
+l_paren '('	 [LeadingSpace]	Loc=<0011.c:52:14>
+int 'int'		Loc=<0011.c:52:15>
+r_paren ')'		Loc=<0011.c:52:18>
+numeric_constant '1.f'	 [LeadingSpace]	Loc=<0011.c:52:20>
+r_paren ')'		Loc=<0011.c:52:23>
+semi ';'		Loc=<0011.c:52:24>
+identifier 'foo'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:53:5>
+l_paren '('		Loc=<0011.c:53:8>
+identifier 'msg'		Loc=<0011.c:53:9>
+comma ','		Loc=<0011.c:53:12>
+l_paren '('	 [LeadingSpace]	Loc=<0011.c:53:14>
+int 'int'		Loc=<0011.c:53:15>
+r_paren ')'		Loc=<0011.c:53:18>
+numeric_constant '1.0f'	 [LeadingSpace]	Loc=<0011.c:53:20>
+r_paren ')'		Loc=<0011.c:53:24>
+semi ';'		Loc=<0011.c:53:25>
+identifier 'foo'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:54:5>
+l_paren '('		Loc=<0011.c:54:8>
+identifier 'msg'		Loc=<0011.c:54:9>
+comma ','		Loc=<0011.c:54:12>
+l_paren '('	 [LeadingSpace]	Loc=<0011.c:54:14>
+int 'int'		Loc=<0011.c:54:15>
+r_paren ')'		Loc=<0011.c:54:18>
+numeric_constant '1e-3f'	 [LeadingSpace]	Loc=<0011.c:54:20>
+r_paren ')'		Loc=<0011.c:54:25>
+semi ';'		Loc=<0011.c:54:26>
+identifier 'foo'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:55:5>
+l_paren '('		Loc=<0011.c:55:8>
+identifier 'msg'		Loc=<0011.c:55:9>
+comma ','		Loc=<0011.c:55:12>
+l_paren '('	 [LeadingSpace]	Loc=<0011.c:55:14>
+int 'int'		Loc=<0011.c:55:15>
+r_paren ')'		Loc=<0011.c:55:18>
+numeric_constant '1e+3f'	 [LeadingSpace]	Loc=<0011.c:55:20>
+r_paren ')'		Loc=<0011.c:55:25>
+semi ';'		Loc=<0011.c:55:26>
+identifier 'foo'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:56:5>
+l_paren '('		Loc=<0011.c:56:8>
+identifier 'msg'		Loc=<0011.c:56:9>
+comma ','		Loc=<0011.c:56:12>
+l_paren '('	 [LeadingSpace]	Loc=<0011.c:56:14>
+int 'int'		Loc=<0011.c:56:15>
+r_paren ')'		Loc=<0011.c:56:18>
+numeric_constant '1E3f'	 [LeadingSpace]	Loc=<0011.c:56:20>
+r_paren ')'		Loc=<0011.c:56:24>
+semi ';'		Loc=<0011.c:56:25>
+identifier 'foo'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:57:5>
+l_paren '('		Loc=<0011.c:57:8>
+identifier 'msg'		Loc=<0011.c:57:9>
+comma ','		Loc=<0011.c:57:12>
+l_paren '('	 [LeadingSpace]	Loc=<0011.c:57:14>
+int 'int'		Loc=<0011.c:57:15>
+r_paren ')'		Loc=<0011.c:57:18>
+numeric_constant '1.E-3f'	 [LeadingSpace]	Loc=<0011.c:57:20>
+r_paren ')'		Loc=<0011.c:57:26>
+semi ';'		Loc=<0011.c:57:27>
+identifier 'foo'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:58:5>
+l_paren '('		Loc=<0011.c:58:8>
+identifier 'msg'		Loc=<0011.c:58:9>
+comma ','		Loc=<0011.c:58:12>
+l_paren '('	 [LeadingSpace]	Loc=<0011.c:58:14>
+int 'int'		Loc=<0011.c:58:15>
+r_paren ')'		Loc=<0011.c:58:18>
+numeric_constant '1E+3f'	 [LeadingSpace]	Loc=<0011.c:58:20>
+r_paren ')'		Loc=<0011.c:58:25>
+semi ';'		Loc=<0011.c:58:26>
+_Generic '_Generic'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:60:5 <Spelling=0011.c:12:18>>
+l_paren '('		Loc=<0011.c:60:5 <Spelling=0011.c:12:26>>
+l_paren '('		Loc=<0011.c:60:5 <Spelling=0011.c:12:27>>
+numeric_constant '123'		Loc=<0011.c:60:5 <Spelling=0011.c:60:11>>
+amp '&'	 [LeadingSpace]	Loc=<0011.c:60:5 <Spelling=0011.c:60:15>>
+numeric_constant '0xFF'	 [LeadingSpace]	Loc=<0011.c:60:5 <Spelling=0011.c:60:17>>
+r_paren ')'		Loc=<0011.c:60:5 <Spelling=0011.c:12:29>>
+comma ','		Loc=<0011.c:60:5 <Spelling=0011.c:12:30>>
+int 'int'	 [LeadingSpace]	Loc=<0011.c:60:5 <Spelling=0011.c:13:9>>
+colon ':'	 [LeadingSpace]	Loc=<0011.c:60:5 <Spelling=0011.c:13:13>>
+identifier 'print_int'	 [LeadingSpace]	Loc=<0011.c:60:5 <Spelling=0011.c:13:15>>
+comma ','		Loc=<0011.c:60:5 <Spelling=0011.c:13:24>>
+double 'double'	 [LeadingSpace]	Loc=<0011.c:60:5 <Spelling=0011.c:14:9>>
+colon ':'		Loc=<0011.c:60:5 <Spelling=0011.c:14:15>>
+identifier 'print_double'	 [LeadingSpace]	Loc=<0011.c:60:5 <Spelling=0011.c:14:17>>
+r_paren ')'	 [LeadingSpace]	Loc=<0011.c:60:5 <Spelling=0011.c:15:5>>
+l_paren '('		Loc=<0011.c:60:5 <Spelling=0011.c:15:6>>
+numeric_constant '123'		Loc=<0011.c:60:5 <Spelling=0011.c:60:11>>
+amp '&'	 [LeadingSpace]	Loc=<0011.c:60:5 <Spelling=0011.c:60:15>>
+numeric_constant '0xFF'	 [LeadingSpace]	Loc=<0011.c:60:5 <Spelling=0011.c:60:17>>
+r_paren ')'		Loc=<0011.c:60:5 <Spelling=0011.c:15:8>>
+semi ';'		Loc=<0011.c:60:22>
+_Generic '_Generic'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:61:5 <Spelling=0011.c:12:18>>
+l_paren '('		Loc=<0011.c:61:5 <Spelling=0011.c:12:26>>
+l_paren '('		Loc=<0011.c:61:5 <Spelling=0011.c:12:27>>
+numeric_constant '1'		Loc=<0011.c:61:5 <Spelling=0011.c:61:11>>
+lessless '<<'	 [LeadingSpace]	Loc=<0011.c:61:5 <Spelling=0011.c:61:13>>
+numeric_constant '2'	 [LeadingSpace]	Loc=<0011.c:61:5 <Spelling=0011.c:61:16>>
+r_paren ')'		Loc=<0011.c:61:5 <Spelling=0011.c:12:29>>
+comma ','		Loc=<0011.c:61:5 <Spelling=0011.c:12:30>>
+int 'int'	 [LeadingSpace]	Loc=<0011.c:61:5 <Spelling=0011.c:13:9>>
+colon ':'	 [LeadingSpace]	Loc=<0011.c:61:5 <Spelling=0011.c:13:13>>
+identifier 'print_int'	 [LeadingSpace]	Loc=<0011.c:61:5 <Spelling=0011.c:13:15>>
+comma ','		Loc=<0011.c:61:5 <Spelling=0011.c:13:24>>
+double 'double'	 [LeadingSpace]	Loc=<0011.c:61:5 <Spelling=0011.c:14:9>>
+colon ':'		Loc=<0011.c:61:5 <Spelling=0011.c:14:15>>
+identifier 'print_double'	 [LeadingSpace]	Loc=<0011.c:61:5 <Spelling=0011.c:14:17>>
+r_paren ')'	 [LeadingSpace]	Loc=<0011.c:61:5 <Spelling=0011.c:15:5>>
+l_paren '('		Loc=<0011.c:61:5 <Spelling=0011.c:15:6>>
+numeric_constant '1'		Loc=<0011.c:61:5 <Spelling=0011.c:61:11>>
+lessless '<<'	 [LeadingSpace]	Loc=<0011.c:61:5 <Spelling=0011.c:61:13>>
+numeric_constant '2'	 [LeadingSpace]	Loc=<0011.c:61:5 <Spelling=0011.c:61:16>>
+r_paren ')'		Loc=<0011.c:61:5 <Spelling=0011.c:15:8>>
+semi ';'		Loc=<0011.c:61:18>
+_Generic '_Generic'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:62:5 <Spelling=0011.c:12:18>>
+l_paren '('		Loc=<0011.c:62:5 <Spelling=0011.c:12:26>>
+l_paren '('		Loc=<0011.c:62:5 <Spelling=0011.c:12:27>>
+numeric_constant '8'		Loc=<0011.c:62:5 <Spelling=0011.c:62:11>>
+greatergreater '>>'	 [LeadingSpace]	Loc=<0011.c:62:5 <Spelling=0011.c:62:13>>
+numeric_constant '1'	 [LeadingSpace]	Loc=<0011.c:62:5 <Spelling=0011.c:62:16>>
+r_paren ')'		Loc=<0011.c:62:5 <Spelling=0011.c:12:29>>
+comma ','		Loc=<0011.c:62:5 <Spelling=0011.c:12:30>>
+int 'int'	 [LeadingSpace]	Loc=<0011.c:62:5 <Spelling=0011.c:13:9>>
+colon ':'	 [LeadingSpace]	Loc=<0011.c:62:5 <Spelling=0011.c:13:13>>
+identifier 'print_int'	 [LeadingSpace]	Loc=<0011.c:62:5 <Spelling=0011.c:13:15>>
+comma ','		Loc=<0011.c:62:5 <Spelling=0011.c:13:24>>
+double 'double'	 [LeadingSpace]	Loc=<0011.c:62:5 <Spelling=0011.c:14:9>>
+colon ':'		Loc=<0011.c:62:5 <Spelling=0011.c:14:15>>
+identifier 'print_double'	 [LeadingSpace]	Loc=<0011.c:62:5 <Spelling=0011.c:14:17>>
+r_paren ')'	 [LeadingSpace]	Loc=<0011.c:62:5 <Spelling=0011.c:15:5>>
+l_paren '('		Loc=<0011.c:62:5 <Spelling=0011.c:15:6>>
+numeric_constant '8'		Loc=<0011.c:62:5 <Spelling=0011.c:62:11>>
+greatergreater '>>'	 [LeadingSpace]	Loc=<0011.c:62:5 <Spelling=0011.c:62:13>>
+numeric_constant '1'	 [LeadingSpace]	Loc=<0011.c:62:5 <Spelling=0011.c:62:16>>
+r_paren ')'		Loc=<0011.c:62:5 <Spelling=0011.c:15:8>>
+semi ';'		Loc=<0011.c:62:18>
+_Generic '_Generic'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:63:5 <Spelling=0011.c:12:18>>
+l_paren '('		Loc=<0011.c:63:5 <Spelling=0011.c:12:26>>
+l_paren '('		Loc=<0011.c:63:5 <Spelling=0011.c:12:27>>
+numeric_constant '1.'		Loc=<0011.c:63:5 <Spelling=0011.c:63:11>>
+r_paren ')'		Loc=<0011.c:63:5 <Spelling=0011.c:12:29>>
+comma ','		Loc=<0011.c:63:5 <Spelling=0011.c:12:30>>
+int 'int'	 [LeadingSpace]	Loc=<0011.c:63:5 <Spelling=0011.c:13:9>>
+colon ':'	 [LeadingSpace]	Loc=<0011.c:63:5 <Spelling=0011.c:13:13>>
+identifier 'print_int'	 [LeadingSpace]	Loc=<0011.c:63:5 <Spelling=0011.c:13:15>>
+comma ','		Loc=<0011.c:63:5 <Spelling=0011.c:13:24>>
+double 'double'	 [LeadingSpace]	Loc=<0011.c:63:5 <Spelling=0011.c:14:9>>
+colon ':'		Loc=<0011.c:63:5 <Spelling=0011.c:14:15>>
+identifier 'print_double'	 [LeadingSpace]	Loc=<0011.c:63:5 <Spelling=0011.c:14:17>>
+r_paren ')'	 [LeadingSpace]	Loc=<0011.c:63:5 <Spelling=0011.c:15:5>>
+l_paren '('		Loc=<0011.c:63:5 <Spelling=0011.c:15:6>>
+numeric_constant '1.'		Loc=<0011.c:63:5 <Spelling=0011.c:63:11>>
+r_paren ')'		Loc=<0011.c:63:5 <Spelling=0011.c:15:8>>
+semi ';'		Loc=<0011.c:63:14>
+return 'return'	 [StartOfLine] [LeadingSpace]	Loc=<0011.c:64:5>
+numeric_constant '0'	 [LeadingSpace]	Loc=<0011.c:64:12>
+semi ';'		Loc=<0011.c:64:13>
+r_brace '}'	 [StartOfLine]	Loc=<0011.c:65:1>
+eof ''		Loc=<0011.c:65:2>
+1 error generated.

@@ -1,10 +1,6 @@
-#include <stdio.h>
-
-#define ITER 100
-
-int main(void)
+int main(int argc, char **argv)
 {
-    for(int i = 0; i < ITER; ++i)
+    for(int i = 0; i < 100; ++i)
     {
         printf("Hello, World\n");
     }

@@ -1,11 +1,9 @@
 #include <stdio.h>
 
-#define ITER 100
-
-int main(void)
+int main(int argc, char **argv)
 {
     const char *restrict msg = "Hello, World\n";
-    for(int i = 0; i < ITER; ++i)
+    for(int i = 0; i < 100; ++i)
     {
         puts(msg);
     }

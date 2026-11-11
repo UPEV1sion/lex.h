@@ -1,3 +1,6 @@
+0010.c:1:10: fatal error: 'stdio.h' file not found
+#include <stdio.h>
+         ^~~~~~~~~
 void 'void'	 [StartOfLine]	Loc=<0010.c:17:1>
 identifier 'print_int'	 [LeadingSpace]	Loc=<0010.c:17:6>
 l_paren '('		Loc=<0010.c:17:15>
@@ -237,9 +240,9 @@ numeric_constant '0xFF'	 [LeadingSpace]	Loc=<0010.c:56:5 <Spelling=0010.c:56:17>
 r_paren ')'		Loc=<0010.c:56:5 <Spelling=0010.c:12:29>>
 comma ','		Loc=<0010.c:56:5 <Spelling=0010.c:12:30>>
 int 'int'	 [LeadingSpace]	Loc=<0010.c:56:5 <Spelling=0010.c:13:9>>
-colon ':'		Loc=<0010.c:56:5 <Spelling=0010.c:13:12>>
-identifier 'print_int'	 [LeadingSpace]	Loc=<0010.c:56:5 <Spelling=0010.c:13:14>>
-comma ','		Loc=<0010.c:56:5 <Spelling=0010.c:13:23>>
+colon ':'	 [LeadingSpace]	Loc=<0010.c:56:5 <Spelling=0010.c:13:13>>
+identifier 'print_int'	 [LeadingSpace]	Loc=<0010.c:56:5 <Spelling=0010.c:13:15>>
+comma ','		Loc=<0010.c:56:5 <Spelling=0010.c:13:24>>
 double 'double'	 [LeadingSpace]	Loc=<0010.c:56:5 <Spelling=0010.c:14:9>>
 colon ':'		Loc=<0010.c:56:5 <Spelling=0010.c:14:15>>
 identifier 'print_double'	 [LeadingSpace]	Loc=<0010.c:56:5 <Spelling=0010.c:14:17>>
@@ -259,9 +262,9 @@ numeric_constant '2'	 [LeadingSpace]	Loc=<0010.c:57:5 <Spelling=0010.c:57:16>>
 r_paren ')'		Loc=<0010.c:57:5 <Spelling=0010.c:12:29>>
 comma ','		Loc=<0010.c:57:5 <Spelling=0010.c:12:30>>
 int 'int'	 [LeadingSpace]	Loc=<0010.c:57:5 <Spelling=0010.c:13:9>>
-colon ':'		Loc=<0010.c:57:5 <Spelling=0010.c:13:12>>
-identifier 'print_int'	 [LeadingSpace]	Loc=<0010.c:57:5 <Spelling=0010.c:13:14>>
-comma ','		Loc=<0010.c:57:5 <Spelling=0010.c:13:23>>
+colon ':'	 [LeadingSpace]	Loc=<0010.c:57:5 <Spelling=0010.c:13:13>>
+identifier 'print_int'	 [LeadingSpace]	Loc=<0010.c:57:5 <Spelling=0010.c:13:15>>
+comma ','		Loc=<0010.c:57:5 <Spelling=0010.c:13:24>>
 double 'double'	 [LeadingSpace]	Loc=<0010.c:57:5 <Spelling=0010.c:14:9>>
 colon ':'		Loc=<0010.c:57:5 <Spelling=0010.c:14:15>>
 identifier 'print_double'	 [LeadingSpace]	Loc=<0010.c:57:5 <Spelling=0010.c:14:17>>
@@ -281,9 +284,9 @@ numeric_constant '1'	 [LeadingSpace]	Loc=<0010.c:58:5 <Spelling=0010.c:58:16>>
 r_paren ')'		Loc=<0010.c:58:5 <Spelling=0010.c:12:29>>
 comma ','		Loc=<0010.c:58:5 <Spelling=0010.c:12:30>>
 int 'int'	 [LeadingSpace]	Loc=<0010.c:58:5 <Spelling=0010.c:13:9>>
-colon ':'		Loc=<0010.c:58:5 <Spelling=0010.c:13:12>>
-identifier 'print_int'	 [LeadingSpace]	Loc=<0010.c:58:5 <Spelling=0010.c:13:14>>
-comma ','		Loc=<0010.c:58:5 <Spelling=0010.c:13:23>>
+colon ':'	 [LeadingSpace]	Loc=<0010.c:58:5 <Spelling=0010.c:13:13>>
+identifier 'print_int'	 [LeadingSpace]	Loc=<0010.c:58:5 <Spelling=0010.c:13:15>>
+comma ','		Loc=<0010.c:58:5 <Spelling=0010.c:13:24>>
 double 'double'	 [LeadingSpace]	Loc=<0010.c:58:5 <Spelling=0010.c:14:9>>
 colon ':'		Loc=<0010.c:58:5 <Spelling=0010.c:14:15>>
 identifier 'print_double'	 [LeadingSpace]	Loc=<0010.c:58:5 <Spelling=0010.c:14:17>>
@@ -301,9 +304,9 @@ numeric_constant '1.'		Loc=<0010.c:59:5 <Spelling=0010.c:59:11>>
 r_paren ')'		Loc=<0010.c:59:5 <Spelling=0010.c:12:29>>
 comma ','		Loc=<0010.c:59:5 <Spelling=0010.c:12:30>>
 int 'int'	 [LeadingSpace]	Loc=<0010.c:59:5 <Spelling=0010.c:13:9>>
-colon ':'		Loc=<0010.c:59:5 <Spelling=0010.c:13:12>>
-identifier 'print_int'	 [LeadingSpace]	Loc=<0010.c:59:5 <Spelling=0010.c:13:14>>
-comma ','		Loc=<0010.c:59:5 <Spelling=0010.c:13:23>>
+colon ':'	 [LeadingSpace]	Loc=<0010.c:59:5 <Spelling=0010.c:13:13>>
+identifier 'print_int'	 [LeadingSpace]	Loc=<0010.c:59:5 <Spelling=0010.c:13:15>>
+comma ','		Loc=<0010.c:59:5 <Spelling=0010.c:13:24>>
 double 'double'	 [LeadingSpace]	Loc=<0010.c:59:5 <Spelling=0010.c:14:9>>
 colon ':'		Loc=<0010.c:59:5 <Spelling=0010.c:14:15>>
 identifier 'print_double'	 [LeadingSpace]	Loc=<0010.c:59:5 <Spelling=0010.c:14:17>>
@@ -317,3 +320,4 @@ numeric_constant '0'	 [LeadingSpace]	Loc=<0010.c:60:12>
 semi ';'		Loc=<0010.c:60:13>
 r_brace '}'	 [StartOfLine]	Loc=<0010.c:61:1>
 eof ''		Loc=<0010.c:61:2>
+1 error generated.
