@@ -1,15 +1,15 @@
 CC := gcc
 CFLAGS := -Wall -Wextra -pedantic -std=c11 -ggdb
 
-.PHONY: lex expected all test
+.PHONY: test expected all run_tests
 
-all: lex expected
+all: test
 
-lex: main.c lex.h
+test: test.c lex.h clang_mapping.h
 	$(CC) $(CFLAGS) -o $@ $^
 
-expected: expected.c lex.h
-	$(CC) $(CFLAGS) -o $@ $^
+clang_mapping.h: clang_mapping.gperf
+	gperf -H clang_hash -W clang_wordlist --constants-prefix=CLANG_ --initializer-suffix=,0 --output-file=$@ $^
 
-test: lex
-	./lex test/*.c
+run_tests: test
+	./test tests/*.c

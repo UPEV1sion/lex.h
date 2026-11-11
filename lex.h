@@ -13,7 +13,7 @@
     X(TOK_CBRACE) \
     X(TOK_OBRACKET) \
     X(TOK_CBRACKET) \
-    X(TOK_SEMICOLON) \
+    X(TOK_SEMI) \
     /* KEYWORDS */ \
 	X(TOK_AUTO) \
 	X(TOK_BREAK) \
@@ -383,7 +383,7 @@ bool lex__match(Lexer *lexer, char expected)
 {
     if(lex__is_end(lexer)) return false;
     if(lexer->input.data[lexer->offset] != expected) return false;
-    lexer->offset++;
+    lex__advance(lexer);
     return true;
 }
 
@@ -567,7 +567,7 @@ int lex_next_tok(Lexer *lexer, Token *tok)
         case '}': *tok = lex__make_tok(lexer, TOK_CBRACE); return 0;
         case '[': *tok = lex__make_tok(lexer, TOK_OBRACKET); return 0;
         case ']': *tok = lex__make_tok(lexer, TOK_CBRACKET); return 0;
-        case ';': *tok = lex__make_tok(lexer, TOK_SEMICOLON); return 0;
+        case ';': *tok = lex__make_tok(lexer, TOK_SEMI); return 0;
         case ',': *tok = lex__make_tok(lexer, TOK_COMMA); return 0;
         case '.': {
             if('.' == lex__peek(lexer) && '.' == lex__peek_next(lexer))

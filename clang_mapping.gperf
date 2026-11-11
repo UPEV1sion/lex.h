@@ -1,0 +1,113 @@
+%{
+#include <string.h>
+#include "lex.h"
+
+typedef struct ClangMapping {
+    char *name;
+    TokenType type;
+} ClangMapping;
+
+%}
+
+%language=ANSI-C
+%struct-type
+%readonly-tables
+%global-table
+struct ClangMapping
+%define lookup-function-name clang_lookup_function
+%%
+l_square, TOK_OBRACKET
+r_square, TOK_CBRACKET
+l_paren, TOK_OPAREN
+r_paren, TOK_CPAREN
+l_brace, TOK_OBRACE
+r_brace, TOK_CBRACE
+period, TOK_DOT
+ellipsis, TOK_ELLIPSIS
+amp, TOK_AND
+ampamp, TOK_AND_AND
+ampequal, TOK_AND_ASSIGN
+star, TOK_STAR
+starequal, TOK_STAR_ASSIGN
+plus, TOK_PLUS
+plusplus, TOK_INC
+plusequal, TOK_PLUS_ASSIGN
+minus, TOK_MINUS
+arrow, TOK_ARROW
+minusminus, TOK_DEC
+minusequal, TOK_MINUS_ASSIGN
+tilde, TOK_TILDE
+exclaim, TOK_BANG
+exclaimequal, TOK_NE
+slash, TOK_SLASH
+slashequal, TOK_SLASH_ASSIGN
+percent, TOK_MOD
+percentequal, TOK_MOD_ASSIGN
+less, TOK_LT
+lessless, TOK_LSHIFT
+lessequal, TOK_LE
+lesslessequal, TOK_LSHIFT_ASSIGN
+greater, TOK_GT
+greatergreater, TOK_RSHIFT
+greaterequal, TOK_GE
+greatergreaterequal, TOK_RSHIFT_ASSIGN
+caret, TOK_XOR
+caretequal, TOK_XOR_ASSIGN
+pipe, TOK_OR
+pipepipe, TOK_OR_OR
+pipeequal, TOK_OR_ASSIGN
+question, TOK_QUESTION
+colon, TOK_COLON
+semi, TOK_SEMI
+equal, TOK_ASSIGN
+equalequal, TOK_EQ
+comma, TOK_COMMA
+auto, TOK_AUTO
+break, TOK_BREAK
+case, TOK_CASE
+char, TOK_CHAR
+const, TOK_CONST
+continue, TOK_CONTINUE
+default, TOK_DEFAULT
+do, TOK_DO
+double, TOK_DOUBLE
+else, TOK_ELSE
+enum, TOK_ENUM
+extern, TOK_EXTERN
+float, TOK_FLOAT
+for, TOK_FOR
+goto, TOK_GOTO
+if, TOK_IF
+int, TOK_INT
+long, TOK_LONG
+register, TOK_REGISTER
+return, TOK_RETURN
+short, TOK_SHORT
+signed, TOK_SIGNED
+static, TOK_STATIC
+struct, TOK_STRUCT
+switch, TOK_SWITCH
+typedef, TOK_TYPEDEF
+union, TOK_UNION
+unsigned, TOK_UNSIGNED
+void, TOK_VOID
+volatile, TOK_VOLATILE
+while, TOK_WHILE
+inline, TOK_INLINE
+_Alignas, TOK__ALIGNAS
+_Alignof, TOK__ALIGNOF
+_Atomic, TOK__ATOMIC
+_Bool, TOK__BOOL
+_Complex, TOK__COMPLEX
+_Imaginary, TOK__IMAGINARY
+_Generic, TOK__GENERIC
+_Noreturn, TOK__NORETURN
+_Static_assert, TOK__STATIC_ASSERT
+_Thread_local, TOK__THREAD_LOCAL
+eof, TOK_EOF
+identifier, TOK_ID
+numeric_constant, TOK_NUM_LIT
+string_literal, TOK_STR_LIT
+char_constant, TOK_CHAR_LIT
+%%
+
