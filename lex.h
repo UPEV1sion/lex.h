@@ -5,6 +5,10 @@
 #include <stddef.h>
 #include <stdbool.h>
 
+#ifndef LEXDEF
+#define LEXDEF
+#endif // LEXDEF
+
 #define TOKEN_TYPE_LIST \
 	/* SEPARATORS */ \
     X(TOK_OPAREN) \
@@ -142,10 +146,10 @@ typedef struct {
     size_t offset;
 } Lexer;
 
-int lex_next_tok(Lexer *lexer, Token *tok);
-void lex_init(Lexer *lexer, const char *source);
-void lex_init_sv(Lexer *lexer, StringView source);
-const char* lex_stringify_token_type(TokenType type);
+LEXDEF int lex_next_tok(Lexer *lexer, Token *tok);
+LEXDEF void lex_init(Lexer *lexer, const char *source);
+LEXDEF void lex_init_sv(Lexer *lexer, StringView source);
+LEXDEF const char* lex_stringify_token_type(TokenType type);
 
 #ifdef LEX_IMPLEMENTATION
 
@@ -305,7 +309,7 @@ static const struct KeywordEntry wordlist[] =
     {"long", TOK_LONG}
   };
 
-const struct KeywordEntry *
+static const struct KeywordEntry *
 lex__lookup_function (register const char *str, register size_t len)
 {
   if (len <= MAX_WORD_LENGTH && len >= MIN_WORD_LENGTH)
@@ -325,7 +329,7 @@ lex__lookup_function (register const char *str, register size_t len)
 
 // GPERF code end
 
-Token lex__generic_tok(Lexer *lexer, TokenType type, StringView lexeme)
+LEXDEF Token lex__generic_tok(Lexer *lexer, TokenType type, StringView lexeme)
 {
     return (Token) {
         .type = type,
@@ -334,7 +338,7 @@ Token lex__generic_tok(Lexer *lexer, TokenType type, StringView lexeme)
     };
 }
 
-Token lex__make_tok(Lexer *lexer, TokenType type)
+LEXDEF Token lex__make_tok(Lexer *lexer, TokenType type)
 {
     return lex__generic_tok(
                lexer, 
@@ -343,29 +347,35 @@ Token lex__make_tok(Lexer *lexer, TokenType type)
            );
 }
 
-Token lex__error_tok(Lexer *lexer, StringView err_msg)
+LEXDEF Token lex__error_tok(Lexer *lexer, StringView err_msg)
 {
     return lex__generic_tok(lexer, TOK_ERR, err_msg);
 }
 
-bool lex__is_end(Lexer *lexer)
+LEXDEF bool lex__is_end(Lexer *lexer)
 {
     return lexer->offset >= lexer->input.len;
 }
 
-char lex__peek(Lexer *lexer)
+LEXDEF char lex__peek_at(Lexer *lexer, size_t n)
 {
-    return lexer->input.data[lexer->offset];
+    if(lexer->offset + n >= lexer->input.len) return 0;
+    return lexer->input.data[lexer->offset + n];
 }
 
-char lex__peek_next(Lexer *lexer)
+LEXDEF char lex__peek(Lexer *lexer)
+{
+    return lex__peek_at(lexer, 0);
+}
+
+LEXDEF char lex__peek_next(Lexer *lexer)
+{
+    return lex__peek_at(lexer, 1);
+}
+
+LEXDEF char lex__advance(Lexer *lexer)
 {
     if(lex__is_end(lexer)) return 0;
-    return lexer->input.data[lexer->offset + 1];
-}
-
-char lex__advance(Lexer *lexer)
-{
     const char c = lexer->input.data[lexer->offset++];
     if('\n' == c)
     {
@@ -379,7 +389,7 @@ char lex__advance(Lexer *lexer)
     return c;
 }
 
-bool lex__match(Lexer *lexer, char expected)
+LEXDEF bool lex__match(Lexer *lexer, char expected)
 {
     if(lex__is_end(lexer)) return false;
     if(lexer->input.data[lexer->offset] != expected) return false;
@@ -387,7 +397,7 @@ bool lex__match(Lexer *lexer, char expected)
     return true;
 }
 
-bool lex__expect(Lexer *lexer, char expected, StringView err_msg, Token *tok)
+LEXDEF bool lex__expect(Lexer *lexer, char expected, StringView err_msg, Token *tok)
 {
     if(lex__is_end(lexer) || lexer->input.data[lexer->offset] != expected)
     {
@@ -399,7 +409,7 @@ bool lex__expect(Lexer *lexer, char expected, StringView err_msg, Token *tok)
     return true;
 }
 
-void lex__trim_left(Lexer *lexer)
+LEXDEF int lex__trim_left(Lexer *lexer)
 {
     for(;;)
     {
@@ -418,6 +428,7 @@ void lex__trim_left(Lexer *lexer)
             }
             else if('*' == lex__peek_next(lexer))
             {
+                bool closed = false;
                 lex__advance(lexer);
                 lex__advance(lexer);
                 while(!lex__is_end(lexer))
@@ -426,6 +437,7 @@ void lex__trim_left(Lexer *lexer)
                     {
                         lex__advance(lexer);
                         lex__advance(lexer);
+                        closed = true;
                         break;
                     }
                     else
@@ -433,6 +445,7 @@ void lex__trim_left(Lexer *lexer)
                         lex__advance(lexer); 
                     }
                 }
+                if(!closed) return 1;
             }
             else
             {
@@ -441,7 +454,7 @@ void lex__trim_left(Lexer *lexer)
         }
         else if(lex__match(lexer, '#'))
         {
-            while('\n' != lex__peek(lexer))
+            while(!lex__is_end(lexer) && '\n' != lex__peek(lexer))
             {
                 if('\\' == lex__peek(lexer) && '\n' == lex__peek_next(lexer))
                 {
@@ -460,21 +473,23 @@ void lex__trim_left(Lexer *lexer)
             break;
         }
     }
+
+    return 0;
 }
 
-bool lex__is_id(char c)
+LEXDEF bool lex__is_id(char c)
 {
     return isalpha((unsigned char) c) || '_' == c;
 }
 
-TokenType lex__lookup_keyword(Lexer *lexer)
+LEXDEF TokenType lex__lookup_keyword(Lexer *lexer)
 {
     const KeywordEntry *entry = lex__lookup_function(lexer->input.data + lexer->tok_start_offset, lexer->offset - lexer->tok_start_offset);
     if(entry) return entry->id;
     return TOK_ID;
 }
 
-Token lex__id(Lexer *lexer)
+LEXDEF Token lex__id(Lexer *lexer)
 {
     while(lex__is_id(lex__peek(lexer)) || isdigit((unsigned char) lex__peek(lexer))) lex__advance(lexer);
 #ifndef LEX_NO_KEYWORDS
@@ -484,29 +499,30 @@ Token lex__id(Lexer *lexer)
 #endif // LEX_NO_KEYWORDS
 }
 
-
-Token lex__number(Lexer *lexer)
+LEXDEF Token lex__number(Lexer *lexer)
 {
-    while (isdigit((unsigned char) lex__peek(lexer))) lex__advance(lexer);
-
-    if (lex__match(lexer, '.'))
+    for(;;)
     {
-        while(isdigit((unsigned char) lex__peek(lexer))) lex__advance(lexer);
+        const char c = lex__peek(lexer);
+        const char n = lex__peek_next(lexer);
+        if(('e' == tolower((unsigned char) c) || 'p' == tolower((unsigned char) c)) && ('+' == n || '-' == n))
+        {
+            lex__advance(lexer);
+            lex__advance(lexer);
+        }
+        else if(isalnum((unsigned char) c) || '_' == c || '.' == c)
+        {
+            lex__advance(lexer);
+        }
+        else
+        {
+            break;
+        }
     }
-
-    if (lex__match(lexer, 'e') || lex__match(lexer, 'E'))
-    {
-        lex__match(lexer, '+');
-        lex__match(lexer, '-');
-        while (isdigit((unsigned char) lex__peek(lexer))) lex__advance(lexer);
-    }
-
-    while (isalnum((unsigned char) lex__peek(lexer))) lex__advance(lexer);
-
     return lex__make_tok(lexer, TOK_NUM_LIT);
 }
 
-Token lex__string(Lexer *lexer)
+LEXDEF Token lex__string(Lexer *lexer)
 {
     while ('"' != lex__peek(lexer) && !lex__is_end(lexer))
     {
@@ -521,8 +537,9 @@ Token lex__string(Lexer *lexer)
     return lex__make_tok(lexer, TOK_STR_LIT);
 }
 
-Token lex__char(Lexer *lexer)
+LEXDEF Token lex__char(Lexer *lexer)
 {
+    // char literals
     Token tok;
 
     const char c = lex__advance(lexer);
@@ -535,11 +552,20 @@ Token lex__char(Lexer *lexer)
     return lex__make_tok(lexer, TOK_CHAR_LIT);
 }
 
-int lex_next_tok(Lexer *lexer, Token *tok)
+LEXDEF int lex_next_tok(Lexer *lexer, Token *tok)
 {
-    lex__trim_left(lexer);
+    if(lex__trim_left(lexer) != 0)
+    {
+        lexer->tok_start_offset = lexer->offset;
+        lexer->tok_start_loc = lexer->loc;
+        // TODO make this cleaner as this is not a universal trimming error
+        *tok = lex__error_tok(lexer, sv_lit("Unterminated multiline comment."));
+        return 1;
+    }
+
     lexer->tok_start_offset = lexer->offset;
     lexer->tok_start_loc = lexer->loc;
+
 
     if(lex__is_end(lexer))
     {
@@ -570,7 +596,11 @@ int lex_next_tok(Lexer *lexer, Token *tok)
         case ';': *tok = lex__make_tok(lexer, TOK_SEMI); return 0;
         case ',': *tok = lex__make_tok(lexer, TOK_COMMA); return 0;
         case '.': {
-            if('.' == lex__peek(lexer) && '.' == lex__peek_next(lexer))
+            if(isdigit((unsigned char) lex__peek(lexer)))
+            {
+                *tok = lex__number(lexer);
+            }
+            else if('.' == lex__peek(lexer) && '.' == lex__peek_next(lexer))
             {
                 lex__advance(lexer);
                 lex__advance(lexer);
@@ -636,18 +666,18 @@ int lex_next_tok(Lexer *lexer, Token *tok)
     return 1;
 }
 
-void lex_init_sv(Lexer *lexer, StringView source)
+LEXDEF void lex_init_sv(Lexer *lexer, StringView source)
 {
     memset(lexer, 0, sizeof(Lexer));
     lexer->input = source;
 }
 
-void lex_init(Lexer *lexer, const char *source)
+LEXDEF void lex_init(Lexer *lexer, const char *source)
 {
     lex_init_sv(lexer, sv(source, strlen(source)));
 }
 
-const char* lex_stringify_token_type(TokenType type)
+LEXDEF const char* lex_stringify_token_type(TokenType type)
 {
 	switch(type)
 	{
