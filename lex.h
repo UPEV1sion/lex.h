@@ -418,6 +418,9 @@ LEXDEF int lex__trim_left(Lexer *lexer)
             lex__advance(lexer);
         }
 
+        size_t comment_start_offset = lexer->offset;
+        Location comment_start_loc = lexer->loc;
+
         if('/' == lex__peek(lexer))
         {
             if('/' == lex__peek_next(lexer))
@@ -445,7 +448,12 @@ LEXDEF int lex__trim_left(Lexer *lexer)
                         lex__advance(lexer); 
                     }
                 }
-                if(!closed) return 1;
+                if(!closed) 
+                {
+                    lexer->tok_start_offset = comment_start_offset;
+                    lexer->tok_start_loc = comment_start_loc;
+                    return 1;
+                }
             }
             else
             {
@@ -556,8 +564,6 @@ LEXDEF int lex_next_tok(Lexer *lexer, Token *tok)
 {
     if(lex__trim_left(lexer) != 0)
     {
-        lexer->tok_start_offset = lexer->offset;
-        lexer->tok_start_loc = lexer->loc;
         // TODO make this cleaner as this is not a universal trimming error
         *tok = lex__error_tok(lexer, sv_lit("Unterminated multiline comment."));
         return 1;
