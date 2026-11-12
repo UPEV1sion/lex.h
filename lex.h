@@ -395,7 +395,7 @@ bool lex__expect(Lexer *lexer, char expected, StringView err_msg, Token *tok)
         return false;
     }
 
-    lexer->offset++;
+    lex__advance(lexer);
     return true;
 }
 
