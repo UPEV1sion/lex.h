@@ -1,4 +1,4 @@
-/* ANSI-C code produced by gperf version 3.1 */
+/* ANSI-C code produced by gperf version 3.3 */
 /* Command-line: gperf -H clang_hash -W clang_wordlist --constants-prefix=CLANG_ --initializer-suffix=,0 --output-file=clang_mapping.h clang_mapping.gperf  */
 /* Computed positions: -k'1-2,$' */
 
@@ -42,7 +42,7 @@ typedef struct ClangMapping {
 #line 16 "clang_mapping.gperf"
 struct ClangMapping;
 
-#define CLANG_TOTAL_KEYWORDS 94
+#define CLANG_TOTAL_KEYWORDS 95
 #define CLANG_MIN_WORD_LENGTH 2
 #define CLANG_MAX_WORD_LENGTH 19
 #define CLANG_MIN_HASH_VALUE 4
@@ -143,7 +143,9 @@ static const struct ClangMapping clang_wordlist[] =
     {"pipeequal", TOK_OR_ASSIGN},
 #line 38 "clang_mapping.gperf"
     {"minusequal", TOK_MINUS_ASSIGN},
-    {"",0}, {"",0},
+#line 98 "clang_mapping.gperf"
+    {"sizeof", TOK_SIZEOF},
+    {"",0},
 #line 26 "clang_mapping.gperf"
     {"ellipsis", TOK_ELLIPSIS},
 #line 61 "clang_mapping.gperf"
@@ -154,7 +156,7 @@ static const struct ClangMapping clang_wordlist[] =
     {"double", TOK_DOUBLE},
 #line 50 "clang_mapping.gperf"
     {"greater", TOK_GT},
-#line 108 "clang_mapping.gperf"
+#line 109 "clang_mapping.gperf"
     {"eof", TOK_EOF},
 #line 82 "clang_mapping.gperf"
     {"long", TOK_LONG},
@@ -173,7 +175,7 @@ static const struct ClangMapping clang_wordlist[] =
     {"volatile", TOK_VOLATILE},
 #line 56 "clang_mapping.gperf"
     {"pipe", TOK_OR},
-#line 101 "clang_mapping.gperf"
+#line 102 "clang_mapping.gperf"
     {"_Bool", TOK__BOOL},
 #line 84 "clang_mapping.gperf"
     {"return", TOK_RETURN},
@@ -191,7 +193,7 @@ static const struct ClangMapping clang_wordlist[] =
     {"restrict", TOK_RESTRICT},
 #line 74 "clang_mapping.gperf"
     {"else", TOK_ELSE},
-#line 109 "clang_mapping.gperf"
+#line 110 "clang_mapping.gperf"
     {"identifier", TOK_ID},
     {"",0},
 #line 71 "clang_mapping.gperf"
@@ -205,7 +207,7 @@ static const struct ClangMapping clang_wordlist[] =
     {"",0},
 #line 80 "clang_mapping.gperf"
     {"if", TOK_IF},
-#line 107 "clang_mapping.gperf"
+#line 108 "clang_mapping.gperf"
     {"_Thread_local", TOK__THREAD_LOCAL},
 #line 75 "clang_mapping.gperf"
     {"enum", TOK_ENUM},
@@ -249,9 +251,9 @@ static const struct ClangMapping clang_wordlist[] =
     {"ampamp", TOK_AND_AND},
 #line 21 "clang_mapping.gperf"
     {"l_paren", TOK_OPAREN},
-#line 98 "clang_mapping.gperf"
+#line 99 "clang_mapping.gperf"
     {"_Alignas", TOK__ALIGNAS},
-#line 111 "clang_mapping.gperf"
+#line 112 "clang_mapping.gperf"
     {"string_literal", TOK_STR_LIT},
 #line 39 "clang_mapping.gperf"
     {"tilde", TOK_TILDE},
@@ -261,12 +263,12 @@ static const struct ClangMapping clang_wordlist[] =
     {"exclaim", TOK_BANG},
 #line 29 "clang_mapping.gperf"
     {"ampequal", TOK_AND_ASSIGN},
-#line 106 "clang_mapping.gperf"
+#line 107 "clang_mapping.gperf"
     {"_Static_assert", TOK__STATIC_ASSERT},
 #line 54 "clang_mapping.gperf"
     {"caret", TOK_XOR},
     {"",0}, {"",0},
-#line 99 "clang_mapping.gperf"
+#line 100 "clang_mapping.gperf"
     {"_Alignof", TOK__ALIGNOF},
 #line 65 "clang_mapping.gperf"
     {"auto", TOK_AUTO},
@@ -277,26 +279,26 @@ static const struct ClangMapping clang_wordlist[] =
     {"exclaimequal", TOK_NE},
 #line 81 "clang_mapping.gperf"
     {"int", TOK_INT},
-#line 105 "clang_mapping.gperf"
+#line 106 "clang_mapping.gperf"
     {"_Noreturn", TOK__NORETURN},
 #line 95 "clang_mapping.gperf"
     {"while", TOK_WHILE},
-#line 110 "clang_mapping.gperf"
+#line 111 "clang_mapping.gperf"
     {"numeric_constant", TOK_NUM_LIT},
     {"",0},
-#line 104 "clang_mapping.gperf"
+#line 105 "clang_mapping.gperf"
     {"_Generic", TOK__GENERIC},
     {"",0},
-#line 103 "clang_mapping.gperf"
+#line 104 "clang_mapping.gperf"
     {"_Imaginary", TOK__IMAGINARY},
     {"",0}, {"",0},
-#line 112 "clang_mapping.gperf"
+#line 113 "clang_mapping.gperf"
     {"char_constant", TOK_CHAR_LIT},
     {"",0}, {"",0},
 #line 87 "clang_mapping.gperf"
     {"static", TOK_STATIC},
     {"",0},
-#line 102 "clang_mapping.gperf"
+#line 103 "clang_mapping.gperf"
     {"_Complex", TOK__COMPLEX},
     {"",0}, {"",0},
 #line 88 "clang_mapping.gperf"
@@ -305,7 +307,7 @@ static const struct ClangMapping clang_wordlist[] =
 #line 92 "clang_mapping.gperf"
     {"unsigned", TOK_UNSIGNED},
     {"",0}, {"",0}, {"",0},
-#line 100 "clang_mapping.gperf"
+#line 101 "clang_mapping.gperf"
     {"_Atomic", TOK__ATOMIC},
     {"",0}, {"",0}, {"",0},
 #line 76 "clang_mapping.gperf"
@@ -333,8 +335,8 @@ clang_lookup_function (register const char *str, register size_t len)
             return &clang_wordlist[key];
         }
     }
-  return 0;
+  return (struct ClangMapping *) 0;
 }
-#line 113 "clang_mapping.gperf"
+#line 114 "clang_mapping.gperf"
 
 

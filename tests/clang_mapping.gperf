@@ -95,6 +95,7 @@ volatile, TOK_VOLATILE
 while, TOK_WHILE
 inline, TOK_INLINE
 restrict, TOK_RESTRICT
+sizeof, TOK_SIZEOF
 _Alignas, TOK__ALIGNAS
 _Alignof, TOK__ALIGNOF
 _Atomic, TOK__ATOMIC
