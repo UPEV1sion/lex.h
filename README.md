@@ -57,7 +57,8 @@ int main(void)
 
 ## Testing
 
-I validate my lexer against the clang lexer.
-I wrote some C files with increasing complexity and the run `clang -cc1 -dump-tokens ...` on the file and saved the output in the `.expected` files.
-The output of the clang lexer is then parsed by `test.c` and validated against my lexer output.
-This test set is by no means complete and work in progress.
+I validate my lexer agaist clang's reference implementation (`clang -cc1 -dump-tokens`) using a suite of of progressivly complex C test cases in `tests`.
+Each tests consist of one C file, and a corresponding `.expected` file, which contains clang's output.
+The Makefile automatically updates outdated `.expected` files of the test suite.
+These files are then parsed by `test.c` in `tests` and the output is validated against my lexer.
+This test suite is work in progress and continuously expanding.
