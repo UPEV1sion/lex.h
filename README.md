@@ -4,7 +4,7 @@
 > This lexer is work in progress! Anything can change at any moment without any notice! Use this lexer at your own risk!
 
 This serves as an scratch lexer for quickly prototyping parsers.
-It _can_ recoginize all keywords of C up to C11.
+It _can_ recognize all keywords of C up to C11.
 However if such behavior is unwanted and all keywords should be recognized as identifier the `LEX_NO_KEYWORDS` macro should be defined _before_ including the header.
 
 ## API
@@ -57,7 +57,7 @@ int main(void)
 
 ## Testing
 
-I validate my lexer agaist clang's reference implementation (`clang -cc1 -dump-tokens`) using a suite of of progressivly complex C test cases in `tests`.
+I validate my lexer against clang's reference implementation (`clang -cc1 -dump-tokens`) using a suite of of progressively complex C test cases in `tests`.
 Each tests consist of one C file, and a corresponding `.expected` file, which contains clang's output.
 The Makefile automatically updates outdated `.expected` files of the test suite.
 These files are then parsed by `test.c` in `tests` and the output is validated against my lexer.
