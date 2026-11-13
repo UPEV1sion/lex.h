@@ -431,4 +431,4 @@ return 'return'	 [StartOfLine] [LeadingSpace]	Loc=<tests/0025.c:101:5>
 numeric_constant '0'	 [LeadingSpace]	Loc=<tests/0025.c:101:12>
 semi ';'		Loc=<tests/0025.c:101:13>
 r_brace '}'	 [StartOfLine]	Loc=<tests/0025.c:102:1>
-eof ''		Loc=<tests/0025.c:105:13>
+eof ''		Loc=<tests/0025.c:104:5>

@@ -460,22 +460,6 @@ LEXDEF int lex__trim_left(Lexer *lexer)
                 break;
             }
         }
-        else if(lex__match(lexer, '#'))
-        {
-            while(!lex__is_end(lexer) && '\n' != lex__peek(lexer))
-            {
-                if('\\' == lex__peek(lexer) && '\n' == lex__peek_next(lexer))
-                {
-                    lex__advance(lexer);
-                    lex__advance(lexer);
-                }
-                else
-                {
-                    lex__advance(lexer);
-                }
-            }
-            lex__advance(lexer);
-        }
         else
         {
             break;

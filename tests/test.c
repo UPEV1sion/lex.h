@@ -59,9 +59,10 @@ int main(int argc, char **argv)
             while(slice)
             {
                 const ClangMapping *mapping = clang_lookup_function(slice, strlen(slice));
-                if(tok_count == 0 && mapping == NULL)
+                if(tok_count == 0)
                 {
-                    printf("Non registered mapping: %s\n", lex_stringify_token_type(tok.type));
+                    if(mapping == NULL) printf("Non registered mapping: %s\n", lex_stringify_token_type(tok.type));
+                    assert_test(mapping != NULL, path, tok.loc.row, context);
                 }
 
                 if(mapping) 

@@ -15,7 +15,7 @@ clang_mapping.h: clang_mapping.gperf
 	gperf -H clang_hash -W clang_wordlist --constants-prefix=CLANG_ --initializer-suffix=,0 --output-file=$@ $^
 
 tests/%.c.expected: tests/%.c
-	clang -cc1 -dump-tokens -Wno-comments $^ 2> $@
+	clang -cc1 -dump-tokens -Wno-comments -std=c11 -pedantic $^ 2> $@
 
 run_tests: test $(TEST_EXPECTED)
 	./test tests/*.c
