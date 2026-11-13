@@ -578,7 +578,7 @@ LEXDEF Token lex__string(Lexer *lexer)
         lex__advance(lexer);
     }
 
-    if (lex__is_end(lexer)) return lex__error_tok(lexer, sv_lit("Unterminated string."));
+    if (lex__is_end(lexer)) return lex__error_tok(lexer, sv_lit("Unterminated string detected."));
 
     lex__advance(lexer);
     return lex__make_tok(lexer, TOK_STR_LIT);
@@ -586,16 +586,18 @@ LEXDEF Token lex__string(Lexer *lexer)
 
 LEXDEF Token lex__char(Lexer *lexer)
 {
-    // TODO hex constants...
-    Token tok;
+    if('\'' == lex__peek(lexer)) return lex__error_tok(lexer, sv_lit("Empty char detected."));
 
-    const char c = lex__advance(lexer);
-    if('\\' == c)
+    while('\'' != lex__peek(lexer) && !lex__is_end(lexer))
     {
+        if('\n' == lex__peek(lexer)) return lex__error_tok(lexer, sv_lit("Multiline chars are not supported."));
+        lex__match(lexer, '\\');
         lex__advance(lexer);
     }
 
-    if(!lex__expect(lexer, '\'', sv_lit("Non terminated char detected."), &tok)) return tok;
+    if (lex__is_end(lexer)) return lex__error_tok(lexer, sv_lit("Unterminated char detected."));
+
+    lex__advance(lexer);
     return lex__make_tok(lexer, TOK_CHAR_LIT);
 }
 
@@ -735,5 +737,6 @@ LEXDEF const char* lex_stringify_token_type(TokenType type)
 /*
   Revision History:
 
+    1.1.0 (2026-11-13) added support for hex literals/multi character char literals
     1.0.0 (2026-11-13) first release of lex.h
 */
