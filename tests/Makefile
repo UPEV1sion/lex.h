@@ -6,7 +6,7 @@ TEST_EXPECTED := $(TEST_SRCS:.c=.c.expected)
 
 .PHONY: test expected all run_tests
 
-all: test
+all: run_tests
 
 test: test.c ../lex.h clang_mapping.h
 	$(CC) $(CFLAGS) -o $@ $^

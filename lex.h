@@ -1,4 +1,4 @@
-/*  lex.h 1.1.0 - lexer for creating languages with C-like grammar
+/*  lex.h 2.0.0 - lexer for creating languages with C-like grammar
 
 Quick Example:
 
@@ -200,7 +200,7 @@ typedef struct {
     size_t offset;
 } Lexer;
 
-LEXDEF int lex_next_tok(Lexer *lexer, Token *tok);
+LEXDEF void lex_next_tok(Lexer *lexer, Token *tok);
 LEXDEF void lex_init(Lexer *lexer, const char *source);
 LEXDEF void lex_init_sv(Lexer *lexer, StringView source);
 LEXDEF const char* lex_stringify_token_type(TokenType type);
@@ -601,9 +601,9 @@ LEXDEF Token lex__char(Lexer *lexer)
     return lex__make_tok(lexer, TOK_CHAR_LIT);
 }
 
-LEXDEF int lex_next_tok(Lexer *lexer, Token *tok)
+LEXDEF void lex_next_tok(Lexer *lexer, Token *tok)
 {
-    if(lex__trim_left(lexer, tok) != 0) return 1;
+    if(lex__trim_left(lexer, tok) != 0) return;
     lexer->tok_start_offset = lexer->offset;
     lexer->tok_start_loc = lexer->loc;
 
@@ -611,31 +611,31 @@ LEXDEF int lex_next_tok(Lexer *lexer, Token *tok)
     if(lex__is_end(lexer))
     {
         *tok = lex__make_tok(lexer, TOK_EOF);
-        return 0;
+        return;
     }
 
     const char c = lex__advance(lexer);
     if(lex__is_id(c))
     {
         *tok = lex__id(lexer);
-        return 0;
+        return;
     }
     if(isdigit((unsigned char) c))
     {
         *tok = lex__number(lexer);
-        return 0;
+        return;
     }
 
     switch(c)
     {
-        case '(': *tok = lex__make_tok(lexer, TOK_OPAREN); return 0;
-        case ')': *tok = lex__make_tok(lexer, TOK_CPAREN); return 0;
-        case '{': *tok = lex__make_tok(lexer, TOK_OBRACE); return 0;
-        case '}': *tok = lex__make_tok(lexer, TOK_CBRACE); return 0;
-        case '[': *tok = lex__make_tok(lexer, TOK_OBRACKET); return 0;
-        case ']': *tok = lex__make_tok(lexer, TOK_CBRACKET); return 0;
-        case ';': *tok = lex__make_tok(lexer, TOK_SEMI); return 0;
-        case ',': *tok = lex__make_tok(lexer, TOK_COMMA); return 0;
+        case '(': *tok = lex__make_tok(lexer, TOK_OPAREN); return;;
+        case ')': *tok = lex__make_tok(lexer, TOK_CPAREN); return;;
+        case '{': *tok = lex__make_tok(lexer, TOK_OBRACE); return;;
+        case '}': *tok = lex__make_tok(lexer, TOK_CBRACE); return;
+        case '[': *tok = lex__make_tok(lexer, TOK_OBRACKET); return;
+        case ']': *tok = lex__make_tok(lexer, TOK_CBRACKET); return;
+        case ';': *tok = lex__make_tok(lexer, TOK_SEMI); return;
+        case ',': *tok = lex__make_tok(lexer, TOK_COMMA); return;
         case '.': {
             if(isdigit((unsigned char) lex__peek(lexer)))
             {
@@ -651,60 +651,59 @@ LEXDEF int lex_next_tok(Lexer *lexer, Token *tok)
             {
                 *tok = lex__make_tok(lexer, TOK_DOT);
             }
-            return 0;
+            return;
         }
         case '-': {
             if (lex__match(lexer, '>'))      *tok = lex__make_tok(lexer, TOK_ARROW);
             else if (lex__match(lexer, '-')) *tok = lex__make_tok(lexer, TOK_DEC);
             else if (lex__match(lexer, '=')) *tok = lex__make_tok(lexer, TOK_MINUS_ASSIGN);
             else                             *tok = lex__make_tok(lexer, TOK_MINUS);
-            return 0;
+            return;
         }
         case '+':  {
             if (lex__match(lexer, '+'))      *tok = lex__make_tok(lexer, TOK_INC);
             else if (lex__match(lexer, '=')) *tok = lex__make_tok(lexer, TOK_PLUS_ASSIGN);
             else                             *tok = lex__make_tok(lexer, TOK_PLUS);
-            return 0;
+            return;
         }
-        case '*': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_STAR_ASSIGN : TOK_STAR); return 0;
-        case '/': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_SLASH_ASSIGN : TOK_SLASH); return 0;
-        case '!': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_NE : TOK_BANG); return 0;
-        case '=': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_EQ : TOK_ASSIGN); return 0;
+        case '*': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_STAR_ASSIGN : TOK_STAR); return;
+        case '/': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_SLASH_ASSIGN : TOK_SLASH); return;
+        case '!': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_NE : TOK_BANG); return;
+        case '=': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_EQ : TOK_ASSIGN); return;
         case '<':  {
             if (lex__match(lexer, '<'))      *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_LSHIFT_ASSIGN : TOK_LSHIFT);
             else if (lex__match(lexer, '=')) *tok = lex__make_tok(lexer, TOK_LE);
             else                             *tok = lex__make_tok(lexer, TOK_LT);
-            return 0;
+            return;
         }
         case '>':  {
             if (lex__match(lexer, '>'))      *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_RSHIFT_ASSIGN : TOK_RSHIFT);
             else if (lex__match(lexer, '=')) *tok = lex__make_tok(lexer, TOK_GE);
             else                             *tok = lex__make_tok(lexer, TOK_GT);
-            return 0;
+            return;
         }
-        case '^': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_XOR_ASSIGN : TOK_XOR); return 0;
+        case '^': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_XOR_ASSIGN : TOK_XOR); return;
         case '|': {
             if(lex__match(lexer, '|'))       *tok = lex__make_tok(lexer, TOK_OR_OR);
             else if(lex__match(lexer, '='))  *tok = lex__make_tok(lexer, TOK_OR_ASSIGN);
             else                             *tok = lex__make_tok(lexer, TOK_OR);
-            return 0;
+            return;
         }
         case '&': {
             if(lex__match(lexer, '&'))       *tok = lex__make_tok(lexer, TOK_AND_AND);
             else if(lex__match(lexer, '='))  *tok = lex__make_tok(lexer, TOK_AND_ASSIGN);
             else                             *tok = lex__make_tok(lexer, TOK_AND);
-            return 0;
+            return;
         }
-        case '~': *tok = lex__make_tok(lexer, TOK_TILDE); return 0;
-        case '%': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_MOD_ASSIGN : TOK_MOD); return 0;
-        case '?': *tok = lex__make_tok(lexer, TOK_QUESTION); return 0;
-        case ':': *tok = lex__make_tok(lexer, TOK_COLON); return 0;
-        case '"': *tok = lex__string(lexer); return 0;
-        case '\'': *tok = lex__char(lexer); return 0;
+        case '~': *tok = lex__make_tok(lexer, TOK_TILDE); return;
+        case '%': *tok = lex__make_tok(lexer, lex__match(lexer, '=') ? TOK_MOD_ASSIGN : TOK_MOD); return;
+        case '?': *tok = lex__make_tok(lexer, TOK_QUESTION); return;
+        case ':': *tok = lex__make_tok(lexer, TOK_COLON); return;
+        case '"': *tok = lex__string(lexer); return;
+        case '\'': *tok = lex__char(lexer); return;
     }
 
     *tok = lex__error_tok(lexer, sv_lit("Unrecognized symbol."));
-    return 1;
 }
 
 LEXDEF void lex_init_sv(Lexer *lexer, StringView source)
@@ -737,6 +736,7 @@ LEXDEF const char* lex_stringify_token_type(TokenType type)
 /*
   Revision History:
 
+    2.0.0 (2026-11-13) removed the return value of `lex_next_tok` because its redundant information
     1.1.0 (2026-11-13) added support for hex literals/multi character char literals
     1.0.0 (2026-11-13) first release of lex.h
 */
