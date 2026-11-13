@@ -409,7 +409,7 @@ LEXDEF bool lex__expect(Lexer *lexer, char expected, StringView err_msg, Token *
     return true;
 }
 
-LEXDEF int lex__trim_left(Lexer *lexer)
+LEXDEF int lex__trim_left(Lexer *lexer, Token *tok)
 {
     for(;;)
     {
@@ -452,6 +452,7 @@ LEXDEF int lex__trim_left(Lexer *lexer)
                 {
                     lexer->tok_start_offset = comment_start_offset;
                     lexer->tok_start_loc = comment_start_loc;
+                    *tok = lex__error_tok(lexer, sv_lit("Unterminated multiline comment."));
                     return 1;
                 }
             }
@@ -531,7 +532,7 @@ LEXDEF Token lex__string(Lexer *lexer)
 
 LEXDEF Token lex__char(Lexer *lexer)
 {
-    // char literals
+    // TODO hex constants...
     Token tok;
 
     const char c = lex__advance(lexer);
@@ -546,13 +547,7 @@ LEXDEF Token lex__char(Lexer *lexer)
 
 LEXDEF int lex_next_tok(Lexer *lexer, Token *tok)
 {
-    if(lex__trim_left(lexer) != 0)
-    {
-        // TODO make this cleaner as this is not a universal trimming error
-        *tok = lex__error_tok(lexer, sv_lit("Unterminated multiline comment."));
-        return 1;
-    }
-
+    if(lex__trim_left(lexer, tok) != 0) return 1;
     lexer->tok_start_offset = lexer->offset;
     lexer->tok_start_loc = lexer->loc;
 
