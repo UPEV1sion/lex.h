@@ -1,3 +1,57 @@
+/*  lex.h 1.0.0 - lexer for creating languages with C-like grammar
+
+Quick Example:
+
+```c
+#include <stdio.h>
+
+// #define LEX_NO_KEYWORDS
+#define LEX_IMPLEMENTATION
+#include "lex.h"
+
+int main(void)
+{
+    char buffer[4096];
+    FILE *f = fopen("test.c", "r");
+    size_t size = fread(buffer, 1, sizeof(buffer), f);
+
+    Lexer lexer;
+    lex_init_sv(&lexer, sv(buffer, size));
+
+    Token tok;
+    do
+    {
+        lex_next_tok(&lexer, &tok);
+
+        printf("%zu:%zu:%s: %.*s\n",
+                   tok.loc.row,
+                   tok.loc.col,
+                   lex_stringify_token_type(tok.type),
+                   (int) tok.lexeme.len,
+                   tok.lexeme.data
+               );
+
+    } while(tok.type != TOK_EOF && tok.type != TOK_ERR);
+
+    fclose(f);
+
+    return 0;
+}
+```
+
+Flags:
+
+- LEX_IMPLEMENTATION: include the implementations of the declarations.
+  By default it acts as a normal C header. See https://github.com/nothings/stb/blob/f58f558c120e9b32c217290b80bad1a0729fbb2c/docs/stb_howto.txt for more information.
+
+- LEX_NO_KEYWORDS: do not recoginize C keywords and output them as identifier.
+
+Redefinable Macros:
+
+- LEXDEF: prepend things to function declarations. Most common usecase is `#define LEXDEF static inline`
+
+*/
+
 #ifndef LEX_H_
 #define LEX_H_
 
@@ -341,7 +395,7 @@ LEXDEF Token lex__generic_tok(Lexer *lexer, TokenType type, StringView lexeme)
 LEXDEF Token lex__make_tok(Lexer *lexer, TokenType type)
 {
     return lex__generic_tok(
-               lexer, 
+               lexer,
                type,
                sv(lexer->input.data + lexer->tok_start_offset, lexer->offset - lexer->tok_start_offset)
            );
@@ -445,10 +499,10 @@ LEXDEF int lex__trim_left(Lexer *lexer, Token *tok)
                     }
                     else
                     {
-                        lex__advance(lexer); 
+                        lex__advance(lexer);
                     }
                 }
-                if(!closed) 
+                if(!closed)
                 {
                     lexer->tok_start_offset = comment_start_offset;
                     lexer->tok_start_loc = comment_start_loc;
@@ -593,7 +647,7 @@ LEXDEF int lex_next_tok(Lexer *lexer, Token *tok)
             }
             else
             {
-                *tok = lex__make_tok(lexer, TOK_DOT); 
+                *tok = lex__make_tok(lexer, TOK_DOT);
             }
             return 0;
         }
@@ -603,7 +657,7 @@ LEXDEF int lex_next_tok(Lexer *lexer, Token *tok)
             else if (lex__match(lexer, '=')) *tok = lex__make_tok(lexer, TOK_MINUS_ASSIGN);
             else                             *tok = lex__make_tok(lexer, TOK_MINUS);
             return 0;
-        } 
+        }
         case '+':  {
             if (lex__match(lexer, '+'))      *tok = lex__make_tok(lexer, TOK_INC);
             else if (lex__match(lexer, '=')) *tok = lex__make_tok(lexer, TOK_PLUS_ASSIGN);
@@ -670,10 +724,16 @@ LEXDEF const char* lex_stringify_token_type(TokenType type)
 			TOKEN_TYPE_LIST
 		#undef X
 	}
-	
+
 	return NULL;
 }
 
 #endif // LEX_IMPLEMENTATION
 
 #endif // LEX_H_
+
+/*
+  Revision History:
+
+    1.0.0 (2026-11-13) first release of lex.h
+*/

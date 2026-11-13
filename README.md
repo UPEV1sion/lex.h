@@ -1,10 +1,11 @@
-# Header-Only Scratch Lexer
+# Header-Only Lexer
 
 > [!WARNING]
 > This lexer is work in progress! Anything can change at any moment without any notice! Use this lexer at your own risk!
 
-This serves as an scratch lexer for quickly prototyping parsers.
-It _can_ recognize all keywords of C up to C11.
+This serves as a lexer for quickly prototyping parsers.
+It _cannot_ handle macros, is this is the job of the preprocessor.
+It _can_ recognize all keywords and operators of C up to C11.
 However if such behavior is unwanted and all keywords should be recognized as identifier the `LEX_NO_KEYWORDS` macro should be defined _before_ including the header.
 
 ## API
