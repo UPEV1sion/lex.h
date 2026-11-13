@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -Wall -Wextra -pedantic -std=c11 -ggdb
+CFLAGS := -Wall -Wextra -Werror -pedantic -std=c11 -ggdb
 
 TEST_SRCS := $(wildcard tests/*.c)
 TEST_EXPECTED := $(TEST_SRCS:.c=.c.expected)

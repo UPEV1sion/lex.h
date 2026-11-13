@@ -1,3 +1,4 @@
+char_constant ''\xff''	 [StartOfLine]	Loc=<tests/0026.c:1:1>
 typedef 'typedef'	 [StartOfLine]	Loc=<tests/0026.c:6:1>
 struct 'struct'	 [LeadingSpace]	Loc=<tests/0026.c:6:9>
 l_brace '{'	 [LeadingSpace]	Loc=<tests/0026.c:6:16>

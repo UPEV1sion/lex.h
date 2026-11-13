@@ -1,4 +1,4 @@
-
+'\xff'
 // // // Comment
 // /* Comment */
 /* Comment /* */
