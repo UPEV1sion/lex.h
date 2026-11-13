@@ -11,7 +11,7 @@ However if such behavior is unwanted and all keywords should be recognized as id
 ## API
 
 ```c
-int lex_next_tok(Lexer *lexer, Token *tok);
+void lex_next_tok(Lexer *lexer, Token *tok);
 void lex_init(Lexer *lexer, const char *source);
 void lex_init_sv(Lexer *lexer, StringView source);
 const char* lex_stringify_token_type(TokenType type);
