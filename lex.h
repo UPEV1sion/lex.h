@@ -628,9 +628,9 @@ LEXDEF void lex_next_tok(Lexer *lexer, Token *tok)
 
     switch(c)
     {
-        case '(': *tok = lex__make_tok(lexer, TOK_OPAREN); return;;
-        case ')': *tok = lex__make_tok(lexer, TOK_CPAREN); return;;
-        case '{': *tok = lex__make_tok(lexer, TOK_OBRACE); return;;
+        case '(': *tok = lex__make_tok(lexer, TOK_OPAREN); return;
+        case ')': *tok = lex__make_tok(lexer, TOK_CPAREN); return;
+        case '{': *tok = lex__make_tok(lexer, TOK_OBRACE); return;
         case '}': *tok = lex__make_tok(lexer, TOK_CBRACE); return;
         case '[': *tok = lex__make_tok(lexer, TOK_OBRACKET); return;
         case ']': *tok = lex__make_tok(lexer, TOK_CBRACKET); return;
