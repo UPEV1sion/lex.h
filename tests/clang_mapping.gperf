@@ -10,6 +10,7 @@ typedef struct ClangMapping {
 %}
 
 %language=ANSI-C
+%compare-strncmp
 %struct-type
 %readonly-tables
 %global-table
