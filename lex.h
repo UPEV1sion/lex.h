@@ -1,4 +1,4 @@
-/*  lex.h 1.0.0 - lexer for creating languages with C-like grammar
+/*  lex.h 1.1.0 - lexer for creating languages with C-like grammar
 
 Quick Example:
 
