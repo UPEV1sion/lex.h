@@ -12,7 +12,7 @@ test: test.c ../lex.h clang_mapping.h
 	$(CC) $(CFLAGS) -o $@ $^
 
 clang_mapping.h: clang_mapping.gperf
-	gperf -H clang_hash -W clang_wordlist --constants-prefix=CLANG_ --initializer-suffix=,0 --output-file=$@ $^
+	gperf --output-file=$@ $^
 
 tests/%.c.expected: tests/%.c
 	clang -cc1 -dump-tokens -Wno-comments -std=c11 -pedantic $^ 2> $@

@@ -2,10 +2,10 @@
 #include <string.h>
 #include "lex.h"
 
-typedef struct KeywordEntry {
+typedef struct Lex__KeywordEntry {
     char *name;
     TokenType id;
-} KeywordEntry;
+} Lex__KeywordEntry;
 
 %}
 
@@ -14,8 +14,12 @@ typedef struct KeywordEntry {
 %struct-type
 %readonly-tables
 %global-table
-struct KeywordEntry
+struct Lex__KeywordEntry
 %define lookup-function-name lex__lookup_function
+%define hash-function-name lex__hash
+%define word-array-name lex__wordlist
+%define constants-prefix LEX__
+%define initializer-suffix ,0
 %%
 auto, TOK_AUTO
 break, TOK_BREAK

@@ -1,4 +1,4 @@
-/*  lex.h 2.0.0 - lexer for creating languages with C-like grammar
+/*  lex.h 3.0.0 - lexer for creating languages with C-like grammar
 
 Quick Example:
 
@@ -16,7 +16,7 @@ int main(void)
     size_t size = fread(buffer, 1, sizeof(buffer), f);
 
     Lexer lexer;
-    lex_init_sv(&lexer, sv(buffer, size));
+    lex_init_sv(&lexer, lex_sv(buffer, size));
 
     Token tok;
     do
@@ -58,6 +58,7 @@ Redefinable Macros:
 #include <ctype.h>
 #include <stddef.h>
 #include <stdbool.h>
+#include <string.h>
 
 #ifndef LEXDEF
 #define LEXDEF
@@ -178,8 +179,8 @@ typedef struct {
     size_t len;
 } StringView;
 
-#define sv(data1, len1) ((StringView) {.data = data1, .len = len1 })
-#define sv_lit(data1) ((StringView) {.data = data1, .len = sizeof(data1) - 1})
+#define lex_sv(data1, len1) ((StringView) {.data = data1, .len = len1 })
+#define lex_sv_lit(data1) ((StringView) {.data = data1, .len = sizeof(data1) - 1})
 
 typedef struct {
     size_t col;
@@ -209,9 +210,8 @@ LEXDEF const char* lex_stringify_token_type(TokenType type);
 
 // GPERF code start
 
-// TODO find a way to automate the concat of these files
 /* ANSI-C code produced by gperf version 3.1 */
-/* Command-line: gperf --initializer-suffix=,0 --output-file=keywords.h keywords.gperf  */
+/* Command-line: gperf keywords.gperf  */
 /* Computed positions: -k'1,$' */
 
 #if !((' ' == 32) && ('!' == 33) && ('"' == 34) && ('#' == 35) \
@@ -241,22 +241,18 @@ LEXDEF const char* lex_stringify_token_type(TokenType type);
 #error "gperf generated tables don't work with this execution character set. Please report a bug to <bug-gperf@gnu.org>."
 #endif
 
-
-#include <string.h>
-#include "lex.h"
-
-typedef struct KeywordEntry {
+typedef struct Lex__KeywordEntry {
     char *name;
     TokenType id;
-} KeywordEntry;
+} Lex__KeywordEntry;
 
-struct KeywordEntry;
+struct Lex__KeywordEntry;
 
-#define TOTAL_KEYWORDS 44
-#define MIN_WORD_LENGTH 2
-#define MAX_WORD_LENGTH 14
-#define MIN_HASH_VALUE 5
-#define MAX_HASH_VALUE 69
+#define LEX__TOTAL_KEYWORDS 44
+#define LEX__MIN_WORD_LENGTH 2
+#define LEX__MAX_WORD_LENGTH 14
+#define LEX__MIN_HASH_VALUE 5
+#define LEX__MAX_HASH_VALUE 69
 /* maximum key range = 65, duplicates = 0 */
 
 #ifdef __GNUC__
@@ -267,7 +263,7 @@ inline
 #endif
 #endif
 static unsigned int
-hash (register const char *str, register size_t len)
+lex__hash (register const char *str, register size_t len)
 {
   static const unsigned char asso_values[] =
     {
@@ -301,7 +297,7 @@ hash (register const char *str, register size_t len)
   return len + asso_values[(unsigned char)str[len - 1]] + asso_values[(unsigned char)str[0]];
 }
 
-static const struct KeywordEntry wordlist[] =
+static const struct Lex__KeywordEntry lex__wordlist[] =
   {
     {"",0}, {"",0}, {"",0}, {"",0}, {"",0},
     {"short", TOK_SHORT},
@@ -363,19 +359,19 @@ static const struct KeywordEntry wordlist[] =
     {"long", TOK_LONG}
   };
 
-static const struct KeywordEntry *
+const struct Lex__KeywordEntry *
 lex__lookup_function (register const char *str, register size_t len)
 {
-  if (len <= MAX_WORD_LENGTH && len >= MIN_WORD_LENGTH)
+  if (len <= LEX__MAX_WORD_LENGTH && len >= LEX__MIN_WORD_LENGTH)
     {
-      register unsigned int key = hash (str, len);
+      register unsigned int key = lex__hash (str, len);
 
-      if (key <= MAX_HASH_VALUE)
+      if (key <= LEX__MAX_HASH_VALUE)
         {
-          register const char *s = wordlist[key].name;
+          register const char *s = lex__wordlist[key].name;
 
           if (*str == *s && !strncmp (str + 1, s + 1, len - 1) && s[len] == '\0')
-            return &wordlist[key];
+            return &lex__wordlist[key];
         }
     }
   return 0;
@@ -397,7 +393,7 @@ LEXDEF Token lex__make_tok(Lexer *lexer, TokenType type)
     return lex__generic_tok(
                lexer,
                type,
-               sv(lexer->input.data + lexer->tok_start_offset, lexer->offset - lexer->tok_start_offset)
+               lex_sv(lexer->input.data + lexer->tok_start_offset, lexer->offset - lexer->tok_start_offset)
            );
 }
 
@@ -506,7 +502,7 @@ LEXDEF int lex__trim_left(Lexer *lexer, Token *tok)
                 {
                     lexer->tok_start_offset = comment_start_offset;
                     lexer->tok_start_loc = comment_start_loc;
-                    *tok = lex__error_tok(lexer, sv_lit("Unterminated multiline comment."));
+                    *tok = lex__error_tok(lexer, lex_sv_lit("Unterminated multiline comment."));
                     return 1;
                 }
             }
@@ -531,7 +527,7 @@ LEXDEF bool lex__is_id(char c)
 
 LEXDEF TokenType lex__lookup_keyword(Lexer *lexer)
 {
-    const KeywordEntry *entry = lex__lookup_function(lexer->input.data + lexer->tok_start_offset, lexer->offset - lexer->tok_start_offset);
+    const Lex__KeywordEntry *entry = lex__lookup_function(lexer->input.data + lexer->tok_start_offset, lexer->offset - lexer->tok_start_offset);
     if(entry) return entry->id;
     return TOK_ID;
 }
@@ -573,12 +569,12 @@ LEXDEF Token lex__string(Lexer *lexer)
 {
     while ('"' != lex__peek(lexer) && !lex__is_end(lexer))
     {
-        if('\n' == lex__peek(lexer)) return lex__error_tok(lexer, sv_lit("Multiline strings are not supported."));
+        if('\n' == lex__peek(lexer)) return lex__error_tok(lexer, lex_sv_lit("Multiline strings are not supported."));
         lex__match(lexer, '\\');
         lex__advance(lexer);
     }
 
-    if (lex__is_end(lexer)) return lex__error_tok(lexer, sv_lit("Unterminated string detected."));
+    if (lex__is_end(lexer)) return lex__error_tok(lexer, lex_sv_lit("Unterminated string detected."));
 
     lex__advance(lexer);
     return lex__make_tok(lexer, TOK_STR_LIT);
@@ -586,16 +582,16 @@ LEXDEF Token lex__string(Lexer *lexer)
 
 LEXDEF Token lex__char(Lexer *lexer)
 {
-    if('\'' == lex__peek(lexer)) return lex__error_tok(lexer, sv_lit("Empty char detected."));
+    if('\'' == lex__peek(lexer)) return lex__error_tok(lexer, lex_sv_lit("Empty char detected."));
 
     while('\'' != lex__peek(lexer) && !lex__is_end(lexer))
     {
-        if('\n' == lex__peek(lexer)) return lex__error_tok(lexer, sv_lit("Multiline chars are not supported."));
+        if('\n' == lex__peek(lexer)) return lex__error_tok(lexer, lex_sv_lit("Multiline chars are not supported."));
         lex__match(lexer, '\\');
         lex__advance(lexer);
     }
 
-    if (lex__is_end(lexer)) return lex__error_tok(lexer, sv_lit("Unterminated char detected."));
+    if (lex__is_end(lexer)) return lex__error_tok(lexer, lex_sv_lit("Unterminated char detected."));
 
     lex__advance(lexer);
     return lex__make_tok(lexer, TOK_CHAR_LIT);
@@ -703,7 +699,7 @@ LEXDEF void lex_next_tok(Lexer *lexer, Token *tok)
         case '\'': *tok = lex__char(lexer); return;
     }
 
-    *tok = lex__error_tok(lexer, sv_lit("Unrecognized symbol."));
+    *tok = lex__error_tok(lexer, lex_sv_lit("Unrecognized symbol."));
 }
 
 LEXDEF void lex_init_sv(Lexer *lexer, StringView source)
@@ -714,7 +710,7 @@ LEXDEF void lex_init_sv(Lexer *lexer, StringView source)
 
 LEXDEF void lex_init(Lexer *lexer, const char *source)
 {
-    lex_init_sv(lexer, sv(source, strlen(source)));
+    lex_init_sv(lexer, lex_sv(source, strlen(source)));
 }
 
 LEXDEF const char* lex_stringify_token_type(TokenType type)
@@ -736,6 +732,7 @@ LEXDEF const char* lex_stringify_token_type(TokenType type)
 /*
   Revision History:
 
+    3.0.0 (2026-11-14) renamed: `sv` to `lex_sv` and `sv_lit` to `lex_sv_lit`. prefixed everything by gperf with lex__ or Lex__
     2.0.0 (2026-11-13) removed the return value of `lex_next_tok` because its redundant information
     1.1.0 (2026-11-13) added support for hex literals/multi character char literals
     1.0.0 (2026-11-13) first release of lex.h

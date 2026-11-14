@@ -33,7 +33,7 @@ int main(void)
     size_t size = fread(buffer, 1, sizeof(buffer), f);
 
     Lexer lexer;
-    lex_init_sv(&lexer, sv(buffer, size));
+    lex_init_sv(&lexer, lex_sv(buffer, size));
 
     Token tok;
     do
