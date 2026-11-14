@@ -85,7 +85,7 @@ int main(int argc, char **argv)
         buf[size] = 0;
 
         Lexer lexer;
-        lex_init_sv(&lexer, sv(buf, size));
+        lex_init_sv(&lexer, lex_sv(buf, size));
 
         char expected_path[1024];
         snprintf(expected_path, sizeof(expected_path), "%s.expected", path); 
@@ -100,7 +100,7 @@ int main(int argc, char **argv)
             char expected_line[4096];
             assert(fgets(expected_line, sizeof(expected_line), expected_f));
 
-            StringView expected_line_sv = sv(expected_line, strlen(expected_line));
+            StringView expected_line_sv = lex_sv(expected_line, strlen(expected_line));
 
             StringView tokens[64];
             size_t tok_count = 0;
