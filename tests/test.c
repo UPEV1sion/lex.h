@@ -76,7 +76,7 @@ int main(int argc, char **argv)
         FILE *f = fopen(path, "r");
         assert(f);
         fseek(f, 0, SEEK_END);
-        int size = ftell(f);
+        long size = ftell(f);
         fseek(f, 0, SEEK_SET);
 
         char *buf = malloc(size + 1);
@@ -93,7 +93,8 @@ int main(int argc, char **argv)
         assert(expected_f);
 
         Token tok;
-        do {
+        do 
+        {
             lex_next_tok(&lexer, &tok);
             if(TOK_EOF == tok.type) break;
             char expected_line[4096];
@@ -111,9 +112,10 @@ int main(int argc, char **argv)
                 if (slice.len > 0) tokens[tok_count++] = slice;
             }
 
-            assert(tok_count >= 2);
+            assert(tok_count >= 3);
             StringView type_sv    = tokens[0];
             StringView literal_sv = tokens[1];
+            StringView loc_sv     = tokens[tok_count - 1];
 
             const ClangMapping *mapping = clang_lookup_function(type_sv.data, type_sv.len);
             assert_test(mapping != NULL, path, tok.loc.row, expected_line);
@@ -125,26 +127,17 @@ int main(int argc, char **argv)
             literal_sv.len -= 2;
             assert_test(sv_eq(literal_sv, tok.lexeme), path, tok.loc.row, expected_line);
 
-            for(size_t i = 2; i < tok_count; ++i)
-            {
-                StringView loc_sv = tokens[i];
-                if(loc_sv.len >= 4 && strncmp(loc_sv.data, "Loc=", 4) == 0)
-                {
-                    char saved_char = loc_sv.data[loc_sv.len];
-                    ((char*)loc_sv.data)[loc_sv.len] = 0;
+            const bool starts_with_loc = loc_sv.len >= 4 && strncmp(loc_sv.data, "Loc=", 4) == 0;
+            assert_test(starts_with_loc, path, tok.loc.row, expected_line);
 
-                    size_t expected_row, expected_col;
-                    int scanned = sscanf(loc_sv.data, "Loc=<%*[^:]:%zu:%zu>", &expected_row, &expected_col);
+            size_t expected_row, expected_col;
+            const int scanned = sscanf(loc_sv.data, "Loc=<%*[^:]:%zu:%zu>", &expected_row, &expected_col);
+            assert(scanned == 2);
 
-                    ((char*)loc_sv.data)[loc_sv.len] = saved_char;
-
-                    assert(scanned == 2);
-                    assert_test(tok.loc.row + 1 == expected_row, path, expected_row, expected_line);
-                    assert_test(tok.loc.col + 1 == expected_col, path, expected_row, expected_line);
-                    break;
-                }
-            }
-        } while(tok.type != TOK_EOF && tok.type != TOK_ERR);
+            assert_test(tok.loc.row + 1 == expected_row, path, expected_row, expected_line);
+            assert_test(tok.loc.col + 1 == expected_col, path, expected_row, expected_line);
+        } 
+        while(tok.type != TOK_EOF && tok.type != TOK_ERR);
 
         fclose(f);
         fclose(expected_f);
