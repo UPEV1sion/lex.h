@@ -1,12 +1,12 @@
 # Header-Only Lexer
 
 > [!WARNING]
-> This lexer is work in progress! Anything can change at any moment without any notice! Use this lexer at your own risk!
+> This lexer is still in development! Anything can change at any moment without any notice! Use this lexer at your own risk!
 
 This serves as a lexer for quickly prototyping parsers.
 It _cannot_ handle macros, as this is the job of the preprocessor.
 It _can_ recognize all keywords and operators of C up to C11.
-However if such behavior is unwanted and all keywords should be recognized as identifiers the `LEX_NO_KEYWORDS` macro should be defined _before_ including the header.
+However, if such behavior is unwanted and all keywords should be recognized as identifiers, the `LEX_NO_KEYWORDS` macro should be defined _before_ including the header.
 
 ## API
 
@@ -48,7 +48,8 @@ int main(void)
                    tok.lexeme.data
                );
         
-    } while(tok.type != TOK_EOF && tok.type != TOK_ERR);
+    }
+    while(tok.type != TOK_EOF && tok.type != TOK_ERR);
 
     fclose(f);
 
@@ -58,7 +59,7 @@ int main(void)
 
 ## Testing
 
-I validate my lexer against clang's reference implementation (`clang -cc1 -dump-tokens`) using a suite of of progressively complex C test cases in `tests`.
+I validate my lexer against clang's reference implementation (`clang -cc1 -dump-tokens`) using a suite of progressively complex C test cases in `tests`.
 Each tests consist of one C file, and a corresponding `.expected` file, which contains clang's output.
 The Makefile automatically updates outdated `.expected` files of the test suite.
 These files are then parsed by `test.c` in `tests` and the output is validated against my lexer.
