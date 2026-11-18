@@ -10,12 +10,16 @@ typedef struct ClangMapping {
 %}
 
 %language=ANSI-C
+%compare-strncmp
 %struct-type
 %readonly-tables
 %global-table
 struct ClangMapping
 %define lookup-function-name clang_lookup_function
--clang_hash -W clang_wordlist --constants-prefix=CLANG_ 
+%define hash-function-name clang_hash
+%define word-array-name clang_wordlist
+%define constants-prefix CLANG_
+%define initializer-suffix ,0
 %%
 l_square, TOK_OBRACKET
 r_square, TOK_CBRACKET
@@ -96,6 +100,7 @@ volatile, TOK_VOLATILE
 while, TOK_WHILE
 inline, TOK_INLINE
 restrict, TOK_RESTRICT
+sizeof, TOK_SIZEOF
 _Alignas, TOK__ALIGNAS
 _Alignof, TOK__ALIGNOF
 _Atomic, TOK__ATOMIC

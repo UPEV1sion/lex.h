@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <ctype.h>
 
 #define LEX_IMPLEMENTATION
 #include "../lex.h"
@@ -12,9 +13,58 @@
     do { \
         if(!(cond)) { \
             printf("Assertion '%s' failed at %s:%zu for %s\n", #cond, file, line, context); \
-            abort(); \
+            exit(1); \
         } \
     } while(0)
+
+StringView sv_field(StringView *sv)
+{
+    while(sv->len > 0 && isspace((unsigned char) sv->data[0]))
+    {
+        sv->data++;
+        sv->len--;
+    }
+
+    if(sv->len == 0) return (StringView) {0};
+
+    const char *start = sv->data;
+    size_t i = 0;
+    char quote = 0;
+
+    while(i < sv->len)
+    {
+        char c = sv->data[i];
+
+        if(quote)
+        {
+            bool closes = (i + 1 >= sv->len) || isspace((unsigned char) sv->data[i + 1]);
+            if(c == quote && closes) quote = 0;
+        }
+        else if(isspace((unsigned char) c))
+        {
+            break;
+        }
+        else if(c == '\'' || c == '"')
+        {
+            quote = c;
+        }
+
+        i++;
+    }
+
+    StringView field = { .data = start, .len = i };
+
+    sv->data += i;
+    sv->len  -= i;
+
+    return field;
+}
+
+
+bool sv_eq(StringView sv1, StringView sv2)
+{
+    return sv1.len == sv2.len && strncmp(sv1.data, sv2.data, sv1.len) == 0;
+}
 
 int main(int argc, char **argv)
 {
@@ -26,7 +76,7 @@ int main(int argc, char **argv)
         FILE *f = fopen(path, "r");
         assert(f);
         fseek(f, 0, SEEK_END);
-        int size = ftell(f);
+        long size = ftell(f);
         fseek(f, 0, SEEK_SET);
 
         char *buf = malloc(size + 1);
@@ -35,51 +85,59 @@ int main(int argc, char **argv)
         buf[size] = 0;
 
         Lexer lexer;
-        lex_init_sv(&lexer, sv(buf, size));
+        lex_init_sv(&lexer, lex_sv(buf, size));
 
         char expected_path[1024];
         snprintf(expected_path, sizeof(expected_path), "%s.expected", path); 
         FILE *expected_f = fopen(expected_path, "r");
         assert(expected_f);
 
-        // TODO clang translation
-
         Token tok;
-        do
+        do 
         {
             lex_next_tok(&lexer, &tok);
-            // TODO convert this to StringViews
+            if(TOK_EOF == tok.type) break;
             char expected_line[4096];
-            char context[4096];
             assert(fgets(expected_line, sizeof(expected_line), expected_f));
-            memcpy(context, expected_line, sizeof(expected_line));
-            int tok_count = 0;
-            
-            char *slice = strtok(expected_line, " \t");
-            while(slice)
-            {
-                const ClangMapping *mapping = clang_lookup_function(slice, strlen(slice));
-                if(tok_count == 0 && mapping == NULL)
-                {
-                    printf("Non registered mapping: %s\n", lex_stringify_token_type(tok.type));
-                }
 
-                if(mapping) 
-                {
-                    assert_test(mapping->type == tok.type, path, tok.loc.row, context);
-                    if(tok.type == TOK_EOF) break;
-                }
-                else if(0 == strncmp(slice, "Loc=", 4))
-                {
-                    size_t expected_row, expected_col;
-                    assert(sscanf(slice, "Loc=<%*[^:]:%zu:%zu>", &expected_row, &expected_col) == 2);
-                    assert_test(tok.loc.row + 1 == expected_row, path, expected_row, context);
-                    assert_test(tok.loc.col + 1 == expected_col, path, expected_row, context);
-                }
-                slice = strtok(NULL, " \t");
-                tok_count++;
+            StringView expected_line_sv = lex_sv(expected_line, strlen(expected_line));
+
+            StringView tokens[64];
+            size_t tok_count = 0;
+
+            while (expected_line_sv.len > 0) 
+            {
+                assert(tok_count < (sizeof(tokens)/sizeof(tokens[0])));
+                StringView slice = sv_field(&expected_line_sv);
+                if (slice.len > 0) tokens[tok_count++] = slice;
             }
-        } while(tok.type != TOK_EOF && tok.type != TOK_ERR);
+
+            assert(tok_count >= 3);
+            StringView type_sv    = tokens[0];
+            StringView literal_sv = tokens[1];
+            StringView loc_sv     = tokens[tok_count - 1];
+
+            const ClangMapping *mapping = clang_lookup_function(type_sv.data, type_sv.len);
+            assert_test(mapping != NULL, path, tok.loc.row, expected_line);
+            assert_test(mapping->type == tok.type, path, tok.loc.row, expected_line);
+
+            // strip quotes...
+            assert(literal_sv.len >= 2);
+            literal_sv.data += 1;
+            literal_sv.len -= 2;
+            assert_test(sv_eq(literal_sv, tok.lexeme), path, tok.loc.row, expected_line);
+
+            const bool starts_with_loc = loc_sv.len >= 4 && strncmp(loc_sv.data, "Loc=", 4) == 0;
+            assert_test(starts_with_loc, path, tok.loc.row, expected_line);
+
+            size_t expected_row, expected_col;
+            const int scanned = sscanf(loc_sv.data, "Loc=<%*[^:]:%zu:%zu>", &expected_row, &expected_col);
+            assert(scanned == 2);
+
+            assert_test(tok.loc.row + 1 == expected_row, path, expected_row, expected_line);
+            assert_test(tok.loc.col + 1 == expected_col, path, expected_row, expected_line);
+        } 
+        while(tok.type != TOK_EOF && tok.type != TOK_ERR);
 
         fclose(f);
         fclose(expected_f);
