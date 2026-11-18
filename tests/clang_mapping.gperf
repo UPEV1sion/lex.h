@@ -15,6 +15,7 @@ typedef struct ClangMapping {
 %global-table
 struct ClangMapping
 %define lookup-function-name clang_lookup_function
+-clang_hash -W clang_wordlist --constants-prefix=CLANG_ 
 %%
 l_square, TOK_OBRACKET
 r_square, TOK_CBRACKET

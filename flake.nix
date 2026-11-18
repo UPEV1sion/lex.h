@@ -16,6 +16,7 @@
           gnumake
           gcc
           clang
+          m4
         ]; 
       };
     }
