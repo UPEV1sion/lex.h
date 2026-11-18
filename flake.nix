@@ -17,6 +17,8 @@
           gcc
           clang
           m4
+          gperf
+          busybox
         ]; 
       };
     }
