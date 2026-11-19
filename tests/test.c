@@ -96,6 +96,7 @@ int main(int argc, char **argv)
         do 
         {
             lex_next_tok(&lexer, &tok);
+            assert_test(tok.type != TOK_ERR, path, tok.loc.row + 1, tok.lexeme.data);
             if(TOK_EOF == tok.type) break;
             char expected_line[4096];
             assert(fgets(expected_line, sizeof(expected_line), expected_f));
@@ -137,7 +138,7 @@ int main(int argc, char **argv)
             assert_test(tok.loc.row + 1 == expected_row, path, expected_row, expected_line);
             assert_test(tok.loc.col + 1 == expected_col, path, expected_row, expected_line);
         } 
-        while(tok.type != TOK_EOF && tok.type != TOK_ERR);
+        while(tok.type != TOK_EOF);
 
         fclose(f);
         fclose(expected_f);
